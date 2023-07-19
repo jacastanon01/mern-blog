@@ -1,0 +1,14 @@
+{
+  "extends": ["eslint-recommend"],
+  "rules": {
+    "max-len": ["error", { "code": 80 }]
+  }
+}
+// "overrides": [
+//   {
+//     "files": ["**/*.js", "**/*.jsx"],
+//     "rules": {
+//       "max-len": ["error", { "code": 60, "comments": 65 }]
+//     }
+//   }
+// ]
