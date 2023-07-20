@@ -3,9 +3,11 @@ import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
 import bcrypt from "bcryptjs"
 
-// @desc Authenticater user and set token
-// @route POST api/users/auth
-// @access public
+// 
+
+// @desc   Authenticater user and set token
+// @route   POST api/users/auth
+// @access  public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -23,9 +25,9 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Register new user
-// @route POST api/users
-// @access public
+// @desc  Register new user
+// @route   POST api/users
+// @access  public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   console.log(name, email, password)
@@ -54,9 +56,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Logout user and clear cookies/jwt
-// @route POST api/users/logout
-// @access public
+// @desc  Logout user and clear cookies/jwt
+// @route   POST api/users/logout
+// @access  public
 const logoutUser = asyncHandler(async (req, res) => {
   // clear jwt cookie that we set in generateToken
   res.cookie("jwt", "", {
@@ -67,12 +69,14 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "User logged out" });
 });
 
-// @desc Get user profile
-// @route POST api/users/profile
-// @access private
+// @desc  Get user profile
+// @route   GET api/users/profile
+// @access  private
 const getUserProfile = asyncHandler(async (req, res) => {
+    // TODO Connect user to blogs they've written
   // if user exists in request object user is authorized
   if (req.user){
+
     res.status(200).json({
       _id: req.user._id,
       name: req.user.name,
@@ -84,9 +88,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Update user profile
-// @route PUT api/users/profile
-// @access private
+// @desc  Update user profile
+// @route   PUT api/users/profile
+// @access  private
 const updateUserProfile = asyncHandler(async(req, res) => {
   const user = await User.findById(req.user._id)
 
@@ -118,6 +122,17 @@ const updateUserProfile1 = asyncHandler(async (req, res) => {
   console.log(req.user._id)
   res.status(201).json({ name, email });
 });
+
+// TODO create private users/profile route where other users can view their profile and blog
+// @desc get one user's blogs
+// 
+// @access private
+// const getPostsByUser = asyncHandler(async (req, res) => {
+//   ? pass in a userId instead of user property
+// const userBlogs = await Blog.find({ author: req.user._id });
+// console.log(userBlogs)
+// res.status(200).json({ userBlogs });
+// });
 
 export {
   authUser,

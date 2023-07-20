@@ -3,6 +3,7 @@ import path from "path"
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
+import blogRoutes from "./routes/blogRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import { connectDB } from "./api/connectDB.js";
 dotenv.config();
@@ -13,7 +14,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser())
 
-app.use("/api/users", userRoutes);
+
+//app.use("/api/users", userRoutes);
+app.use("/api/users", userRoutes)
+app.use("/api/blogs", blogRoutes)
+
 
 if (process.env.NODE_ENV === "production"){
   const __dirname = path.resolve()

@@ -6,6 +6,7 @@
 
   export function setLightMode() {
     document.querySelector("body").setAttribute("data-bs-theme", "light");
+    document.querySelector(".card").setAttribute("color", "#fff")
   }
 
   export function toggleTheme(e) {
