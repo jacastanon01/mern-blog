@@ -63,16 +63,22 @@ const updateBlogPost = asyncHandler(async (req, res) => {
 const createNewPost = asyncHandler(async (req, res) => {
   const { title, body } = req.body;
   const blogs = await Blog.create({ title, body, author: req.user._id });
-  await User.findOneAndUpdate(
-    { _id: req.user._id },
-    // use $push to push new item to blogs array
-    { $push: { blogs } },
-    // set new to true to replace document 
-    { new: true }
-  );
+  // await User.findOneAndUpdate(
+  //   { _id: req.user._id },
+  //   // use $push to push new item to blogs array
+  //   { $push: { blogs } },
+  //   // set new to true to replace document 
+  //   { new: true }
+  // );
+  if (blogs){
 
+    
     console.log(req.user)
     res.status(200).json({ blogs });
+  } else {
+    res.status(400)
+    throw new Error("can't create new blog")
+  }
 });
 
 //@ desc    delete blog post
@@ -85,7 +91,7 @@ const deleteBlog = asyncHandler(async(req,res) => {
     console.log("BLog id? : ", blog.author)
     if (req.user._id.toString() === blog.author.toString()) {
         console.log(blog)
-        await User.findByIdAndUpdate({_id: req.user._id}, {$pull: {blogs: blog._id }}, {new: true})
+       // await User.findByIdAndUpdate({_id: req.user._id}, {$pull: {blogs: blog._id }}, {new: true})
         await Blog.findOneAndDelete({_id: blog._id})
         res.status(200).json({message: "DELETED"})
     } else {

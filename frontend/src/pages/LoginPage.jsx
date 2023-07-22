@@ -36,6 +36,7 @@ function LoginPage() {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
+      console.log(JSON.stringify(res));
       dispatch(setCredentials({ ...res }));
       navigate("/");
     } catch (error) {

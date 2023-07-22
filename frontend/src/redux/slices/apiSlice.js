@@ -1,9 +1,9 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
-const baseQuery = fetchBaseQuery({baseUrl: "/api"})
+const baseQuery = fetchBaseQuery({baseUrl: ""})
 
 export const apiSlice = createApi({
     baseQuery, 
-    tagTypes: ["User"], // Has to do with caching, can add products or blog points as tagTypes
+    tagTypes: ["User", "Blog"], // Has to do with caching, can add products or blog points as tagTypes
     endpoints: (builder) => ({})
 })

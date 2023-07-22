@@ -15,13 +15,13 @@ const userSchema = Schema(
     password: {
       type: String,
       required: true,
-    },
-    blogs: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Blog",
-      },
-    ],
+    }
+    // blogs: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Blog",
+    //   },
+    // ],
   },
   { timestamps: true }
 );
@@ -31,11 +31,12 @@ userSchema.pre("save", async function (next) {
     next();
   }
 
-  const salt = await bcrypt.genSalt(8);
-  this.password = await bcrypt.hash(this.password, salt);
+  const salt = await bcrypt.genSalt(10);
+  this.password = bcrypt.hash(this.password, salt);
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
+  console.log(enteredPassword, this.password)
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

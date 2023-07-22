@@ -11,7 +11,7 @@ import bcrypt from "bcryptjs"
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-
+  //console.log(email, password, user)
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
     res.status(200).json({
@@ -30,7 +30,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(name, email, password)
+  //console.log(name, email, password)
 
   const userCheck = await User.findOne({ email });
 

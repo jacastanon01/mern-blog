@@ -4,7 +4,7 @@ import User from "../models/User.js";
 
 // Protect routes that you can only access if you are logged in (if user has jwt cookie)
 export const protect = asyncHandler(async (req, res, next) => {
-  const token = req.cookies.jwt;
+  let token = req.cookies.jwt;
 
   if (token) {
     try {
