@@ -1,5 +1,6 @@
 import { Form, Row, Col, Button, Card } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { formatISO9075 } from "date-fns";
 import FormContainer from "../../components/FormContainer";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -24,10 +25,23 @@ function EditBlog() {
   console.log(data?.post?.body);
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
+  // const formatDateArr = formatISO9075(new Date(data?.post.updatedAt)).split(
+  //   " "
+  // );
+  // console.log(formatDateArr);
+  // const formatDate = formatDateArr.split(" ")[0];
+  // const formatTimeArr = formatDate[1].split(":");
+  // const formatHour =
+  //   formatTimeArr[0] - 12 > 0
+  //     ? (+formatDateArr[0] - 12).toString()
+  //     : formatTimeArr[0];
+  // console.log(formatHour);
 
   useEffect(() => {
     setTitle(data?.post.title);
     setBody(data?.post.body);
+    // const formatDateArr = data && formatISO9075(data?.post.updatedAt);
+    // console.log(formatDateArr);
   }, [data?.post.title, data?.post.body]);
 
   async function handleSubmit(e) {
@@ -45,9 +59,18 @@ function EditBlog() {
   return (
     data?.post && (
       <FormContainer>
-        {!userInfo._id.toString() === data?.post.author.toString() ? (
+        {userInfo._id.toString() === data?.post.author._id.toString() ? (
           <>
             <h1 className="">Edit blog post</h1>
+
+            {/* {new Date(formatDate).toLocaleDateString()} */}
+            {/* <time>{formatISO9075(new Date(data?.post.createdAt))}</time> */}
+            <div className="inline-block">
+              Last updated at:
+              <time className="ms-2">
+                {formatISO9075(new Date(data?.post.updatedAt))}
+              </time>
+            </div>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="my-3">
                 <Form.FloatingLabel label="Title">
@@ -87,13 +110,16 @@ function EditBlog() {
           </>
         ) : (
           <Card>
-            <Card.Title style={{ borderBottom: "1px solid white" }}>
-              <h1 className="text-center">{title}</h1>
+            <Card.Title
+              className=""
+              style={{ borderBottom: "1px solid white" }}
+            >
+              <h1 className="text-center text-uppercase">{title}</h1>
             </Card.Title>
 
             <Card.Body
               // style={{ height: "20vh" }}
-              className="d-flex justify-content-center"
+              className="d-flex flex-column justify-content-center"
             >
               <p
                 style={{
@@ -104,12 +130,18 @@ function EditBlog() {
                 }}
               >
                 <div>{body}</div>
-                <LinkContainer to={`../user/${data?.post.author._id}`}>
-                  <Button className="btn-primary my-3 align-self-end text-capitalize">
-                    See More posts from {data?.post.author.name}
-                  </Button>
-                </LinkContainer>
+                <div className="d-flex flex-column justify-content-center align-items-end mt-3">
+                  Written by: {data?.post.author.name}
+                  <time style={{ fontSize: "0.7rem", flex: 1 }}>
+                    {formatISO9075(new Date(data?.post.createdAt))}
+                  </time>
+                </div>
               </p>
+              <LinkContainer to={`../user/${data?.post.author._id}`}>
+                <Button className="btn-primary align-self-end text-capitalize">
+                  See More posts from {data?.post.author.name}
+                </Button>
+              </LinkContainer>
             </Card.Body>
           </Card>
         )}

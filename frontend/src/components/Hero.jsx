@@ -49,12 +49,13 @@ function Hero() {
     <div className="py-5">
       <Container className="d-flex justify-content-center">
         <Card className="p-5 d-flex flex-column hero-card align-items-center  w-75">
-          <h1 className="text-center mb-4">MERN Authentication</h1>
+          <h1 className="text-center mb-4">MERN Authentication Blog</h1>
           <p className="text-center mb-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat,
-            nisi aut cum veritatis sequi porro dolor deleniti debitis
-            consequuntur, dolorem earum nulla id blanditiis distinctio
-            provident. Ducimus dignissimos ratione sequi.
+            Blog application that authenticates users with Json Web Tokens and
+            stores them in an http-only cookie. You will not be able to see any
+            other users or their blogs until you register for an account. Once
+            logged in, you can browse the blog posts of other users and create
+            your own. Click below to signup!
           </p>
           <div className="d-flex">{heroButtons}</div>
         </Card>

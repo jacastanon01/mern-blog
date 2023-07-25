@@ -50,7 +50,7 @@ function BlogFeed() {
 
   const altCard = (post) => (
     <Card className="">
-      <Card.Title className="text-center">
+      <Card.Title className="text-center mb-0">
         <h1>{post.title}</h1>
         <p style={{ fontSize: "1rem" }}>
           Written by:{" "}

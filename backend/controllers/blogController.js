@@ -13,8 +13,10 @@ const getAllBlogs = asyncHandler(async (req, res) => {
 
   if (blogs) {
     for await (const blog of blogs){
-      blog.populate("author")
-      await blog.save()
+        if (!blog.author.name){ 
+          blog.populate("author")
+          await blog.save()
+        }
       console.log(blog + " BLOG BOY")
     }
     

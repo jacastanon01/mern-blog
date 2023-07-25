@@ -56,7 +56,11 @@ function SingleBlog({ data }) {
           <Card variant="secondary">
             <Card.Title className="text-center mt-2">{data?.title}</Card.Title>
             <Card.Body className="d-flex">
-              <p style={styles}>{data?.body}</p>{" "}
+              <p style={styles}>
+                {data?.body.length > 80
+                  ? `${data?.body.slice(0, 80)}...`
+                  : data?.body}
+              </p>{" "}
               {userInfo._id === data?.author && (
                 <div className="justify-content-end">
                   <LinkContainer

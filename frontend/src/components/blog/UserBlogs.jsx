@@ -117,7 +117,7 @@ function UserBlogs() {
           {data?.userBlogs.map((blog) => (
             <Col lg={4} sm={10} className="mt-2">
               <Card className="">
-                <Card.Title className="text-center">
+                <Card.Title className="text-center mb-0">
                   <h1>{blog.title}</h1>
                 </Card.Title>
                 <Card.Body>
