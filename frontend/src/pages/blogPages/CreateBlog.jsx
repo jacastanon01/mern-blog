@@ -2,6 +2,7 @@ import { Form, Row, Col, Button } from "react-bootstrap";
 import { useState } from "react";
 import FormContainer from "../../components/FormContainer";
 import { useDispatch } from "react-redux";
+import { setBlogs } from "../../redux/slices/blogsSlice";
 import { useCreateNewBlogMutation } from "../../redux/slices/blogsApiSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -10,11 +11,12 @@ function CreateBlog() {
   const [body, setBody] = useState("");
   const [createNewBlog] = useCreateNewBlogMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   async function handleSubmit(e) {
     e.preventDefault();
     const res = await createNewBlog({ title, body }).unwrap();
-    console.log(res);
+    dispatch(setBlogs({ ...res }));
     navigate("/blog/myblogs");
   }
 
