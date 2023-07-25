@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import FormContainer from "../components/FormContainer";
+import FormContainer from "../../components/FormContainer";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useLoginMutation } from "../redux/slices/usersApiSlice";
-import { setCredentials } from "../redux/slices/authSlice";
-import { LoadingSpinner } from "../components/LoadingSpinner";
+import { useLoginMutation } from "../../redux/slices/usersApiSlice";
+import { setCredentials } from "../../redux/slices/authSlice";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { toast } from "react-toastify";
 
 /* 
@@ -35,7 +35,10 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await login({ email, password }).unwrap();
+      const res = await login({
+        email: email.toLowerCase(),
+        password,
+      }).unwrap();
       console.log(JSON.stringify(res));
       dispatch(setCredentials({ ...res }));
       navigate("/");

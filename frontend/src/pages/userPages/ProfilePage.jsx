@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import FormContainer from "../components/FormContainer";
+import FormContainer from "../../components/FormContainer";
 import { Form, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { setCredentials } from "../redux/slices/authSlice";
+import { setCredentials } from "../../redux/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useUpdateProfileMutation } from "../redux/slices/usersApiSlice";
+import { useUpdateProfileMutation } from "../../redux/slices/usersApiSlice";
 import { toast } from "react-toastify";
-import { LoadingSpinner } from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 function ProfilePage() {
   const [email, setEmail] = useState("");

@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { LinkContainer } from "react-router-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearCredentials } from "../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../redux/slices/usersApiSlice";
@@ -11,6 +11,7 @@ function Hero() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
+  const { userInfo } = useSelector((state) => state.auth);
 
   async function handleLogout() {
     try {
@@ -22,7 +23,7 @@ function Hero() {
     }
   }
 
-  const heroButtons = localStorage.getItem("userInfo") ? (
+  const heroButtons = userInfo ? (
     <>
       <LinkContainer to="/">
         <Button variant="primary me-3" onClick={handleLogout}>

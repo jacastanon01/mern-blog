@@ -20,13 +20,19 @@ const blogSchema = Schema({
     author: {type: Schema.Types.ObjectId, ref: 'User', required: true}
 }, {timestamps: true})
 
-const Blog = model("Blog", blogSchema)
 
 // blogSchema.pre("save", async function(next){
-//     this.slug = await slugify(this.title)
-//     next()
+//         this.author = this.author
+//         next()
 // })
 
+// blogSchema.pre("/^find/", async function(next){
+//     console.log(this.author)
+//     next()
+//     //this.author = this.populate("author").exec(next)
+// })
+    
+const Blog = model("Blog", blogSchema)
 
 export default Blog
 

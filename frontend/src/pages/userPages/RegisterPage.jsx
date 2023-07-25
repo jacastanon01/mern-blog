@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import FormContainer from "../components/FormContainer";
+import FormContainer from "../../components/FormContainer";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useRegisterMutation } from "../redux/slices/usersApiSlice";
-import { setCredentials } from "../redux/slices/authSlice";
+import { useRegisterMutation } from "../../redux/slices/usersApiSlice";
+import { setCredentials } from "../../redux/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { LoadingSpinner } from "../components/LoadingSpinner";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 
 // ?  import FloatingLabel from 'react-bootstrap/FloatingLabel'; Place FloatingLabel where Input label is
 
@@ -35,16 +35,28 @@ function RegisterPage() {
     const trimmedName = name.toString().trim();
 
     // TODO update validation
-    if (confirmPassword !== password || password.length < 4) {
+    if (confirmPassword !== password) {
       toast.error("Passwords do not match");
-    } else {
-      try {
-        const res = await register({ name, email, password }).unwrap(); // if you don't unwrap the promise, res return a data object with the JSON instead of just the JSON. Ask me how I know
-        dispatch(setCredentials({ ...res }));
-        navigate("/profile");
-      } catch (error) {
-        console.log(error);
-      }
+      return;
+    }
+    if (password.length < 4) {
+      toast.error("Password must be at least 4 characters");
+      return;
+    }
+    if (name.length < 2) {
+      toast.error("Name must be at least two characters");
+      return;
+    }
+    try {
+      const res = await register({
+        name: name.toLocaleLowerCase(),
+        email: email.toLowerCase(),
+        password,
+      }).unwrap(); // if you don't unwrap the promise, res return a data object with the JSON instead of just the JSON. Ask me how I know
+      dispatch(setCredentials({ ...res }));
+      navigate("/profile");
+    } catch (error) {
+      console.log(error);
     }
   }
 

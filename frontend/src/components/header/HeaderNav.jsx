@@ -23,14 +23,23 @@ function HeaderNav() {
   };
 
   return userInfo ? (
-    <>
+    <Nav className="ms-auto me-5" style={{ width: "4rem" }}>
+      <Nav.Item className="d-flex justify-content-center my-auto rounded-circle h-auto w-100 text-white btn-primary">
+        {userInfo.name[0].toUpperCase()}
+      </Nav.Item>
       <NavDropdown title={userInfo.name} id="username">
         <LinkContainer to="/profile">
           <NavDropdown.Item>Profile</NavDropdown.Item>
         </LinkContainer>
+        <LinkContainer to="blog/myblogs">
+          <NavDropdown.Item>My Blogs</NavDropdown.Item>
+        </LinkContainer>
+        <LinkContainer to="blog/create">
+          <NavDropdown.Item>Add New Blog</NavDropdown.Item>
+        </LinkContainer>
         <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
       </NavDropdown>
-    </>
+    </Nav>
   ) : (
     <>
       {" "}

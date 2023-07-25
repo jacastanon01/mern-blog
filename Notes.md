@@ -73,3 +73,14 @@ In Redux Toolkit, we create reducers using something called a slice. A slice is 
 - AuthSlice: Take the user data that we get back from our api and put it in localStorage and authState. We're gonna store the id, name and email. We will have two reducers, one to set credentials in local storage and one to remove them from local storage
 
 - UserApiSlice: Where we make the request to the backend
+
+I created a blogsApiSlice to inject endpoints to the blogs endpoint of our RESTful api. There was a problem validated the mutations to our endpoint and re-validating the cache. Once the mutation or query definitions were defined, I ran into a problem of the application using previously cached data from our db. For example if I deleted or created a new blog post, instead of that post already being removed/added to the screen, I would have to refresh the page to see those changes. This led me to believe RTK was using a cached version of our data to avoid unnecessary fetching. From the RTK docs:
+
+> A key feature of RTK Query is its management of cached data. When data is fetched from the server, RTK Query will store the data in the Redux store as a 'cache'. When an additional request is performed for the same data, RTK Query will provide the existing cached data rather than sending an additional request to the server... When a request is attempted, if the data already exists in the cache, then that data is served and no new request is sent to the server. Otherwise, if the data does not exist in the cache, then a new request is sent, and the returned response is stored in the cache.
+
+This led me to learn more about the "cache tag" system RTK query uses:
+
+> RTK Query uses a "cache tag" system to automate re-fetching for query endpoints that have data affected by mutation endpoints. This enables designing your API such that firing a specific mutation will cause a certain query endpoint to consider its cached data invalid, and re-fetch the data if there is an active subscription
+> Each individual mutation endpoint can invalidate particular tags for existing cached data. Doing so enables a relationship between cached data from one or more query endpoints and the behaviour of one or more mutation endpoints.
+
+In our apiSlice we already have a user tag so I added a Blog tag as well, but I wasn't doing anything with it. I wanted to let RTK Query know that every mutation that changes our data should invalidate the cache we already have and replace it with the new returned data. All I needed to do was add an invalidateTags property to our mutation endpoint and now it appears to be behaving as expected.
