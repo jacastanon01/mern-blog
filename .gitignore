@@ -1,3 +1,6 @@
 node_modules
 .vscode
 .env
+./Notes.md
+/Notes.md
+Notes.md
