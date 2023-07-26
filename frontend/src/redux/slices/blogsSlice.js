@@ -1,31 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  blogPosts: localStorage.getItem("blogPosts")
-    ? JSON.parse(localStorage.getItem("blogPosts"))
-    : null,
-};
+    blogs: localStorage.getItem("myBlogs") ? JSON.parse(localStorage.getItem("myBlogs")) : null
+}
 
 const blogsSlice = createSlice({
-  name: "blogPosts",
+  name: "blogs",
   initialState: [],
   reducers: {
-    setBlogs(state, action) {
-      const update = state.find(blog => blog._id === action.payload._id)
-      if (update){
-        state.blogPosts.title = action.payload.title
-        state.blogPosts.body = action.payload.body
-      }
+    setBlog(state, action) {
+      const updatedPosts = state.blogs.map(blog => {
+        if (blog._id === action.payload.blogId){
+            return action.payload
+        }
+        return blog
+      })
+      localStorage.setItem("myBlogs", updatedPosts)
+      state.blogs = updatedPosts
     },
     addBlog(state, action) {
-      state.blogPosts.push(action.payload);
+        state.push(action.payload.blogs);
+        const updatedBlogs = localStorage.getItem("myBlogs") ? [...JSON.parse(localStorage.getItem("myBlogs")), action.payload.blogs] : [action.payload.blogs]
+        localStorage.setItem("myBlogs", JSON.stringify(updatedBlogs))
     },
-    deleteBlogs(state, action){
-        return state.blogPosts.filter(blog => blog._id !== action.blogId)
+    removeBlog(state, action){
+        state.filter(blog => blog._id !== action.payload.blogId)
     }
   },
 });
 
-export const { setBlogs } = blogsSlice.actions;
+export const { setBlog, addBlog, removeBlog } = blogsSlice.actions;
 
 export default blogsSlice.reducer;

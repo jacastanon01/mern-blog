@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { formatISO9075 } from "date-fns";
 import FormContainer from "../../components/FormContainer";
 import { useDispatch, useSelector } from "react-redux";
+import { setBlog, removeBlog } from "../../redux/slices/blogsSlice";
 import {
   useUpdateBlogMutation,
   useGetSingleBlogQuery,
@@ -15,8 +16,8 @@ import { LinkContainer } from "react-router-bootstrap";
 function EditBlog() {
   const { blogId } = useParams();
   console.log(blogId);
-  const [updateBlog] = useUpdateBlogMutation();
-  const [deleteBlog] = useDeleteBlogMutation();
+  const [updateBlog, { isLoading: isUpdating }] = useUpdateBlogMutation();
+  const [deleteBlog, { isLoading: isDeleting }] = useDeleteBlogMutation();
   const { data, isLoading } = useGetSingleBlogQuery({ blogId });
   console.log(data);
   //const { post } = data;
@@ -24,6 +25,7 @@ function EditBlog() {
   const [body, setBody] = useState("");
   console.log(data?.post?.body);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   // const formatDateArr = formatISO9075(new Date(data?.post.updatedAt)).split(
   //   " "
@@ -46,12 +48,18 @@ function EditBlog() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await updateBlog({ blogId: data?.post._id, title, body }).unwrap();
+    const res = await updateBlog({
+      blogId: data?.post._id,
+      title,
+      body,
+    }).unwrap();
+    //dispatch(setBlog({ ...res }));
     navigate("../myblogs");
   }
 
-  async function clearInput() {
-    await deleteBlog({ id: blogId }).unwrap();
+  async function handleDelete() {
+    const res = await deleteBlog({ id: blogId }).unwrap();
+    //dispatch(removeBlog({ ...res }));
     navigate("../myblogs");
   }
 
@@ -101,7 +109,7 @@ function EditBlog() {
                   </Button>
                 </Col>
                 <Col sm={6}>
-                  <Button onClick={clearInput} className="w-100 mt-2">
+                  <Button onClick={handleDelete} className="w-100 mt-2">
                     Delete post
                   </Button>
                 </Col>

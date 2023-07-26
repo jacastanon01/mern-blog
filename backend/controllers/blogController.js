@@ -73,7 +73,7 @@ const updateBlogPost = asyncHandler(async (req, res) => {
 
     const updatedBlog = await blog.save();
     const { title, body, _id } = updatedBlog;
-    res.status(200).json({ _id, title, body });
+    res.status(200).json({ updatedBlog });
     //res.status(200).send("hi")
   } else {
     res.status(401);
@@ -99,7 +99,7 @@ const createNewPost = asyncHandler(async (req, res) => {
   // );
   if (blogs) {
     console.log(blogs);
-    res.status(200).json({ blogs });
+    res.status(201).json({ blogs });
   } else {
     res.status(400);
     throw new Error("can't create new blog");

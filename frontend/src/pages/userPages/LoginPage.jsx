@@ -43,7 +43,7 @@ function LoginPage() {
       dispatch(setCredentials({ ...res }));
       navigate("/");
     } catch (error) {
-      toast.error(error?.date?.message || "Invalid credentials");
+      toast.error(error?.data?.message || "Invalid credentials");
     }
   };
 

@@ -34,7 +34,6 @@ function ProfilePage() {
     if (confirmPassword !== password || password.length < 4) {
       toast.error("Passwords do not match");
     } else {
-      console.log(password + "\n" + confirmPassword);
       const res = await updateProfile({ name, email }).unwrap();
       dispatch(setCredentials({ ...res }));
       toast.success("Updated profile!");

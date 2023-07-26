@@ -2,9 +2,10 @@ import { Form, Row, Col, Button } from "react-bootstrap";
 import { useState } from "react";
 import FormContainer from "../../components/FormContainer";
 import { useDispatch } from "react-redux";
-import { setBlogs } from "../../redux/slices/blogsSlice";
+import { addBlog } from "../../redux/slices/blogsSlice";
 import { useCreateNewBlogMutation } from "../../redux/slices/blogsApiSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function CreateBlog() {
   const [title, setTitle] = useState("");
@@ -15,9 +16,13 @@ function CreateBlog() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const res = await createNewBlog({ title, body }).unwrap();
-    dispatch(setBlogs({ ...res }));
-    navigate("/blog/myblogs");
+    try {
+      const res = await createNewBlog({ title, body }).unwrap();
+      dispatch(addBlog({ ...res }));
+      navigate("/blog/myblogs");
+    } catch (error) {
+      toast.error(error?.data?.message || "Troubling creating blog");
+    }
   }
 
   function clearInput() {

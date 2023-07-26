@@ -26,6 +26,8 @@ import { useSelector } from "react-redux";
 
 function MyBlogs() {
   const { userInfo } = useSelector((state) => state.auth);
+  const myBlogs = useSelector((state) => state.blogs);
+  console.log(myBlogs);
   const { data, isLoading } = useGetUserBlogsQuery({ id: userInfo._id });
 
   //console.log(data);
@@ -66,7 +68,7 @@ function MyBlogs() {
     <>
       <h1 className="text-center">MY BLOGS</h1>
       <Row>
-        {data?.userBlogs.length > 0 ? (
+        {data?.userBlogs?.length > 0 ? (
           data?.userBlogs.map((post) => (
             <SingleBlog data={post} key={post._id} />
             // <Col lg={4} sm={10} className="mt-2" key={post._id}>
