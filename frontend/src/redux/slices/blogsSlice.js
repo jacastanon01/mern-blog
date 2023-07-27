@@ -6,7 +6,7 @@ const initialState = {
 
 const blogsSlice = createSlice({
   name: "blogs",
-  initialState: [],
+  initialState:initialState,
   reducers: {
     setBlog(state, action) {
       const updatedPosts = state.blogs.map(blog => {
@@ -19,7 +19,7 @@ const blogsSlice = createSlice({
       state.blogs = updatedPosts
     },
     addBlog(state, action) {
-        state.push(action.payload.blogs);
+        state.blogs.push(action.payload);
         const updatedBlogs = localStorage.getItem("myBlogs") ? [...JSON.parse(localStorage.getItem("myBlogs")), action.payload.blogs] : [action.payload.blogs]
         localStorage.setItem("myBlogs", JSON.stringify(updatedBlogs))
     },
