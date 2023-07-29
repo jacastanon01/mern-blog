@@ -15,16 +15,28 @@ import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import BlogCard from "./BlogCard";
 import SingleBlog from "./SingleBlog";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBlogs } from "../../redux/slices/blogsSlice";
 // export const fetchBlogs = async () => {
 //   const res = await fetch("http://localhost:4000/api/blogs");
 //   console.log(res.json());
 // };
 
 function BlogFeed() {
-  const { data, isLoading } = useGetBlogsQuery();
-  //console.log(data);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { blogs, status, error } = useSelector((state) => state.blogs);
+  const { userInfo } = useSelector((state) => state.auth);
+  const { data, isLoading } = useGetBlogsQuery();
+  console.log("MYBLOGS", data);
+
+  // useEffect(() => {
+  //   dispatch(fetchBlogs());
+  // }, [dispatch]);
+
+  useEffect(() => {
+    data && !isLoading && dispatch(fetchBlogs(data));
+  }, [dispatch, data]);
 
   // const accordian = (
   //   <Accordion>
@@ -44,9 +56,6 @@ function BlogFeed() {
   //   </Accordion>
   // );
   //   console.log(blogs);
-  // useEffect(() => {
-  //   console.log(data + " in the use effect");
-  // }, [data]);
 
   const altCard = (post) => (
     <Card className="">
@@ -56,9 +65,13 @@ function BlogFeed() {
           Written by:{" "}
           <LinkContainer
             style={{ cursor: "pointer" }}
-            to={`blog/user/${post?.author._id}`}
+            to={
+              post?.author?._id === userInfo._id
+                ? "blog/myblogs"
+                : `blog/user/${post?.author?._id.toString()}`
+            }
           >
-            <b className="text-capitalize">{post?.author.name}</b>
+            <b className="text-capitalize">{post?.author?.name}</b>
           </LinkContainer>
         </p>
       </Card.Title>
@@ -77,7 +90,10 @@ function BlogFeed() {
     </Card>
   );
 
-  if (isLoading) return <LoadingSpinner />;
+  if (status === "pending") return <LoadingSpinner />;
+  if (status === "rejected")
+    return <div className="text-red">Error {error}</div>;
+
   return (
     //     <section>
     //       {data?.blogs ? (
@@ -90,16 +106,16 @@ function BlogFeed() {
     <Row>
       <h1 className="text-center">Browse all blogs</h1>
 
-      {data?.blogs.length > 0 ? (
-        data?.blogs.map((post) => (
+      {blogs?.length > 0 ? (
+        blogs.map((post) => (
           // <Col lg={4} sm={10} className="mt-2" key={post._id}>
           //   {/* <BlogCard data={post} /> */}
           //   {/* <SingleBlog data={post} /> */}
 
           // </Col>
-          <Col lg={4} sm={10} className="mt-4" key={post._id}>
+          <Col lg={4} sm={10} className="mt-4" key={post?._id}>
             {/* <BlogCard post={post} key={post._id} /> */}
-            {altCard(post)}
+            {post && !isLoading && altCard(post)}
           </Col>
         ))
       ) : (
