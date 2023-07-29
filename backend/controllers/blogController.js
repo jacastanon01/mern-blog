@@ -17,10 +17,10 @@ const getAllBlogs = asyncHandler(async (req, res) => {
           blog.populate("author")
           await blog.save()
         }
-      console.log(blog + " BLOG BOY")
     }
     
-    //console.log(blogs)
+    //   console.log(blog + " BLOG BOY")
+    console.log(blogs, "GET ALL BLOGS")
     res.status(200).json({ blogs });
   } else {
     res.status(404);
@@ -33,13 +33,23 @@ const getAllBlogs = asyncHandler(async (req, res) => {
 //@ access  private
 const getPostsByUser = asyncHandler(async (req, res) => {
   // ? pass in a userId?
-  const userBlogs = await Blog.find({ author: req.user._id });
-  const user = await User.findOne({id: userBlogs.author})
-  // const userBlogs = await blogs.populate("author");
-  // await userBlogs.save();
-  console.log(userBlogs)
+  console.log(req.params)
+  const blogs = await Blog.find({ author: req.params.userId });
+  const user = await User.findOne({id: blogs.author})
+  if (blogs) {
+    for await (const blog of blogs){
+        if (!blog.author.name){ 
+          blog.populate("author")
+          await blog.save()
+        }
+    }
+  console.log(blogs, "USER BLOGS")
   //console.log(userBlogs)
-  res.status(200).json({ userBlogs, name: user.name  });
+  res.status(200).json({ blogs, name: user.name });
+  } else {
+    res.status(404)
+    throw new Error("Blogs not found")
+  }
 });
 
 //@ desc    get one single blog
@@ -49,14 +59,13 @@ const getBlogById = asyncHandler(async (req, res) => {
   // const { slug } = req.params
 
   const post = await Blog.findOne({ _id: req.params.blogId })
-    .populate("author")
-    // .exec();
 
-    post.save()
   if (post) {
+    post.populate("author")
+    await post.save()
     res.status(200).json({ post });
   } else {
-    res.status(400);
+    res.status(404);
     throw new Error("Couldn't find that blog");
   }
 });
@@ -88,8 +97,8 @@ const createNewPost = asyncHandler(async (req, res) => {
   const { title, body } = req.body;
   const newBlog = await Blog.create({ title, body, author: req.user._id });
   //const blogs = await Blog.find()
-  const blogs = await newBlog.populate("author");
-  await blogs.save();
+  await newBlog.populate("author");
+  await newBlog.save();
   // await User.findOneAndUpdate(
   //   { _id: req.user._id },
   //   // use $push to push new item to blogs array
@@ -97,9 +106,9 @@ const createNewPost = asyncHandler(async (req, res) => {
   //   // set new to true to replace document
   //   { new: true }
   // );
-  if (blogs) {
-    console.log(blogs);
-    res.status(201).json({ blogs });
+  if (newBlog) {
+    console.log(newBlog, "THAT WAS THE NEW BLOG");
+    res.status(201).json({ newBlog });
   } else {
     res.status(400);
     throw new Error("can't create new blog");
@@ -114,10 +123,10 @@ const deleteBlog = asyncHandler(async (req, res) => {
   console.log(req.user._id);
   
   if (req.user._id.toString() === blog.author.toString()) {
-    console.log(blog);
     // await User.findByIdAndUpdate({_id: req.user._id}, {$pull: {blogs: blog._id }}, {new: true})
-    await Blog.findOneAndDelete({ _id: blog._id });
-    res.status(200).json({ message: "DELETED" });
+    const blogs = await Blog.findOneAndDelete({ _id: blog._id });
+    console.log(blogs);
+    res.status(200).json({ blogs });
   } else {
     res.status(401);
     throw new Error("You are unable to delete other user's posts");

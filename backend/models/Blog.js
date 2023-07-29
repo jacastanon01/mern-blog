@@ -22,8 +22,10 @@ const blogSchema = Schema({
 
 
 // blogSchema.pre("save", async function(next){
-//         this.author = this.author
+//     if (!this.isModified("author")){
 //         next()
+//     }
+    
 // })
 
 // blogSchema.pre("/^find/", async function(next){

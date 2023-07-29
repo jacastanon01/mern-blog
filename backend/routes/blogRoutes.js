@@ -13,7 +13,7 @@ const router = Router()
 
 router.use(protect)
 
-router.get("/user/:userSlug", getPostsByUser)
+router.get("/user/:userId", getPostsByUser)
 router.route("/")
     .get(getAllBlogs)
     .post(createNewPost)
