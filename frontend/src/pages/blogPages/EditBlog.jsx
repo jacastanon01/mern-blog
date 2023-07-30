@@ -18,12 +18,14 @@ function EditBlog() {
   console.log(blogId);
   const [updateBlog, { isLoading: isUpdating }] = useUpdateBlogMutation();
   const [deleteBlog, { isLoading: isDeleting }] = useDeleteBlogMutation();
-  const { data, isLoading } = useGetSingleBlogQuery({ blogId });
+  const { data, isLoading, error } = useGetSingleBlogQuery(
+    { blogId },
+    { refetchOnMountOrArgChange: true }
+  );
   console.log(data);
   //const { post } = data;
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  console.log(data?.post?.body);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -40,6 +42,7 @@ function EditBlog() {
   // console.log(formatHour);
 
   useEffect(() => {
+    console.log(data?.post);
     setTitle(data?.post.title);
     setBody(data?.post.body);
     // const formatDateArr = data && formatISO9075(data?.post.updatedAt);
@@ -52,8 +55,9 @@ function EditBlog() {
       blogId: data?.post._id,
       title,
       body,
+      author: data?.post?.author,
     }).unwrap();
-    //dispatch(setBlog({ ...res }));
+    dispatch(setBlog({ ...res }));
     navigate("../myblogs");
   }
 
@@ -64,10 +68,11 @@ function EditBlog() {
   }
 
   if (isLoading) return <LoadingSpinner />;
+  if (error || !blogId) return <p>{error}</p>;
   return (
     data?.post && (
       <FormContainer>
-        {userInfo._id.toString() === data?.post.author._id.toString() ? (
+        {userInfo._id.toString() === data?.post?.author?._id.toString() ? (
           <>
             <h1 className="">Edit blog post</h1>
 
@@ -83,7 +88,7 @@ function EditBlog() {
               <Form.Group className="my-3">
                 <Form.FloatingLabel label="Title">
                   <Form.Control
-                    value={title}
+                    defaultValue={title}
                     onChange={(e) => setTitle(e.target.value)}
                   />
                 </Form.FloatingLabel>
@@ -93,7 +98,7 @@ function EditBlog() {
                   <Form.Control
                     as="textarea"
                     style={{ height: "200px" }}
-                    value={body}
+                    defaultValue={body}
                     onChange={(e) => setBody(e.target.value)}
                   />
                 </Form.FloatingLabel>
@@ -129,7 +134,7 @@ function EditBlog() {
               // style={{ height: "20vh" }}
               className="d-flex flex-column justify-content-center"
             >
-              <p
+              <div
                 style={{
                   //   background: "#eee",
                   //   color: "black",
@@ -144,7 +149,7 @@ function EditBlog() {
                     {formatISO9075(new Date(data?.post.createdAt))}
                   </time>
                 </div>
-              </p>
+              </div>
               <LinkContainer to={`../user/${data?.post.author._id}`}>
                 <Button className="btn-primary align-self-end text-capitalize">
                   See More posts from {data?.post.author.name}

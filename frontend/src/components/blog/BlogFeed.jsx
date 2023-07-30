@@ -28,6 +28,8 @@ function BlogFeed() {
   const { blogs, status, error } = useSelector((state) => state.blogs);
   const { userInfo } = useSelector((state) => state.auth);
   const { data, isLoading } = useGetBlogsQuery();
+  // {},
+  // { refetchOnMountOrArgChange: true }
   console.log("MYBLOGS", data);
 
   // useEffect(() => {
@@ -35,7 +37,7 @@ function BlogFeed() {
   // }, [dispatch]);
 
   useEffect(() => {
-    data && !isLoading && dispatch(fetchBlogs(data));
+    data && blogs && dispatch(fetchBlogs(data));
   }, [dispatch, data]);
 
   // const accordian = (
@@ -91,7 +93,7 @@ function BlogFeed() {
   );
 
   if (status === "pending") return <LoadingSpinner />;
-  if (status === "rejected")
+  if (status === "rejected" && !isLoading)
     return <div className="text-red">Error {error}</div>;
 
   return (
@@ -107,7 +109,7 @@ function BlogFeed() {
       <h1 className="text-center">Browse all blogs</h1>
 
       {blogs?.length > 0 ? (
-        blogs.map((post) => (
+        blogs?.map((post) => (
           // <Col lg={4} sm={10} className="mt-2" key={post._id}>
           //   {/* <BlogCard data={post} /> */}
           //   {/* <SingleBlog data={post} /> */}
@@ -115,7 +117,45 @@ function BlogFeed() {
           // </Col>
           <Col lg={4} sm={10} className="mt-4" key={post?._id}>
             {/* <BlogCard post={post} key={post._id} /> */}
-            {post && !isLoading && altCard(post)}
+            {post && !isLoading && (
+              <Card className="">
+                <Card.Title className="text-center mb-0">
+                  <h1>{post.title}</h1>
+                  <p style={{ fontSize: "1rem" }}>
+                    Written by:
+                    {post?.author?._id === userInfo._id ? (
+                      <LinkContainer
+                        style={{ cursor: "pointer" }}
+                        to={"blog/myblogs"}
+                      >
+                        <b className="text-capitalize">{post?.author?.name}</b>
+                      </LinkContainer>
+                    ) : (
+                      <LinkContainer
+                        style={{ cursor: "pointer" }}
+                        to={`blog/user/${post?.author?._id.toString()}`}
+                      >
+                        <b className="text-capitalize">{post?.author?.name}</b>
+                      </LinkContainer>
+                    )}
+                  </p>
+                </Card.Title>
+                <Card.Body>
+                  {/* <h1 className="text-center">{post.title}</h1> */}
+                  <div className="text-center">
+                    <p>
+                      {post.body.length > 10
+                        ? `${post.body.slice(0, 10)}...`
+                        : post.body}
+                    </p>
+
+                    <LinkContainer to={`blog/${post._id}`}>
+                      <Button>Go to post</Button>
+                    </LinkContainer>
+                  </div>
+                </Card.Body>
+              </Card>
+            )}
           </Col>
         ))
       ) : (

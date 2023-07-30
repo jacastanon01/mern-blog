@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   useGetSingleBlogQuery,
   useDeleteBlogMutation,
@@ -10,9 +10,10 @@ import { Card, Col } from "react-bootstrap";
 import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeBlog, fetchBlogs } from "../../redux/slices/blogsSlice";
 
-function SingleBlog({ data }) {
+function SingleBlog({ data, name }) {
   //const [getSingleBlog] = useGetSingleBlogQuery();
   //console.log(data);
 
@@ -23,8 +24,13 @@ function SingleBlog({ data }) {
   const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
   const [updateBlog] = useUpdateBlogMutation();
   //const { data } = useGetSingleBlogQuery({ id: JSON.stringify(blogId) });
-  console.log(data, " SINGLE BLOG");
   const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const id = data?._id;
+    //dispatch(fetchBlogs({ id })); //update blogs state
+  }, [dispatch]);
 
   //   const getBlog = async () => {
   //     try {
@@ -38,7 +44,10 @@ function SingleBlog({ data }) {
   //   };
 
   async function handleDelete(id) {
-    await deleteBlog({ id });
+    const res = await deleteBlog({ id }).unwrap(); // delete from db
+    dispatch(removeBlog({ ...res })); // delete from state
+    console.log("DELETE", res);
+    //dispatch(fetchBlogs(data))
     navigate("/blog/myblogs");
   }
 
@@ -51,7 +60,7 @@ function SingleBlog({ data }) {
   const styles = userInfo ? { flex: 1 } : null;
   return (
     <>
-      {data && (
+      {data && !isLoading && (
         <Col lg={4} sm={10} className="mt-4">
           <Card variant="secondary">
             <Card.Title className="text-center mt-2">{data?.title}</Card.Title>
@@ -61,7 +70,7 @@ function SingleBlog({ data }) {
                   ? `${data?.body.slice(0, 80)}...`
                   : data?.body}
               </p>{" "}
-              {userInfo._id === data?.author && (
+              {userInfo._id === data?.author._id && (
                 <div className="justify-content-end">
                   <LinkContainer
                     className="mx-2"

@@ -10,7 +10,17 @@ export const blogsApiSlice = apiSlice.injectEndpoints({
         }),
         getUserBlogs: builder.query({
             query: (data) => `${BLOGS_URL}/user/${data.userId}`,
-            providesTags: ["Blog"]
+            providesTags: ["Blog"],
+            
+            // invalidatesTags: (result, error, arg) => result
+            async onQueryStarted(args, { queryFulfilled, dispatch}){
+                try {
+                    const { data } = await queryFulfilled
+                    console.log("onQueryStarted async ", data, args) // need to set author as tag?
+                } catch (error) {
+                    console.log(error)
+                }
+            }
         }),
         createNewBlog: builder.mutation({
             query: (data) => ({
@@ -32,6 +42,7 @@ export const blogsApiSlice = apiSlice.injectEndpoints({
                 body: data
             }),
             invalidatesTags: ["Blog"]
+            // invalidatesTags: (result, err, arg) => [{type: "Blog", id: arg.d}] 
         }),
         deleteBlog: builder.mutation({
             query: (data) => ({
@@ -39,6 +50,7 @@ export const blogsApiSlice = apiSlice.injectEndpoints({
                 method: "DELETE"
             }),
             invalidatesTags: ["Blog"]
+            // invalidatesTags: (result, error, args) => result ? result?.blogs.map(({_id}) => ({type: "Blog", id: _id})) : ["Blog"]
         })
     }),
 })

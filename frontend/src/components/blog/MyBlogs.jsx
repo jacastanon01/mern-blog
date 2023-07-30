@@ -13,11 +13,12 @@ import {
   Form,
 } from "react-bootstrap";
 import { useGetUserBlogsQuery } from "../../redux/slices/blogsApiSlice";
+import { fetchBlogs } from "../../redux/slices/blogsSlice";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import SingleBlog from "./SingleBlog";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 // export const fetchBlogs = async () => {
 //   const res = await fetch("http://localhost:4000/api/blogs");
@@ -26,12 +27,20 @@ import { useSelector } from "react-redux";
 
 function MyBlogs() {
   const { userInfo } = useSelector((state) => state.auth);
-  const myBlogs = useSelector((state) => state.blogs);
-  console.log(myBlogs);
-  const { data, isLoading } = useGetUserBlogsQuery({ id: userInfo._id });
+  const { blogs, status, error } = useSelector((state) => state.blogs);
+  const dispatch = useDispatch();
 
+  const { data, isLoading } = useGetUserBlogsQuery(
+    { userId: userInfo._id }
+    // { refetchOnMountOrArgChange: true }
+  );
+  console.log("USER DATA: ", data);
   //console.log(data);
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   dispatch(fetchBlogs(data));
+  // }, [dispatch]);
 
   // const accordian = (
   //   <Accordion>
@@ -51,11 +60,16 @@ function MyBlogs() {
   //   </Accordion>
   // );
   //   console.log(blogs);
-  // useEffect(() => {
-  //   console.log(data + " in the use effect");
-  // }, [data]);
+  useEffect(() => {
+    data && dispatch(fetchBlogs(data));
+    console.log(JSON.stringify(data) + " in the use effect");
+  }, [dispatch]);
 
+  if (status === "pending") return <LoadingSpinner />;
   if (isLoading) return <LoadingSpinner />;
+  if (status === "rejected") return <p>{error.message}</p>;
+
+  // if (isLoading) return <LoadingSpinner />;
   return (
     //     <section>
     //       {data?.blogs ? (
@@ -68,9 +82,9 @@ function MyBlogs() {
     <>
       <h1 className="text-center">MY BLOGS</h1>
       <Row>
-        {data?.userBlogs?.length > 0 ? (
-          data?.userBlogs.map((post) => (
-            <SingleBlog data={post} key={post._id} />
+        {data && data?.blogs?.length > 0 ? (
+          data?.blogs.map((post) => (
+            <SingleBlog data={post} name={data?.name} key={post._id} />
             // <Col lg={4} sm={10} className="mt-2" key={post._id}>
             //   <Card className="">
             //     <Card.Title className="text-center">

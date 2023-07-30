@@ -18,6 +18,7 @@ function CreateBlog() {
     e.preventDefault();
     try {
       const res = await createNewBlog({ title, body }).unwrap();
+      console.log(res);
       dispatch(addBlog({ ...res }));
       navigate("/blog/myblogs");
     } catch (error) {

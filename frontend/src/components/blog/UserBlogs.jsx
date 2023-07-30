@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   Button,
@@ -18,6 +18,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import BlogCard from "./BlogCard";
 import SingleBlog from "./SingleBlog";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBlogs } from "../../redux/slices/blogsSlice";
 
 // export const fetchBlogs = async () => {
 //   const res = await fetch("http://localhost:4000/api/blogs");
@@ -25,13 +27,25 @@ import SingleBlog from "./SingleBlog";
 // };
 
 function UserBlogs() {
+  const [user, setUser] = useState("");
   const { userId } = useParams();
+  console.log("USER ", userId);
   //const { data, isLoading } = useGetBlogsQuery();
-  const { data, isLoading } = useGetUserBlogsQuery({ userId });
+  const { data, isLoading } = useGetUserBlogsQuery(
+    { userId },
+    { refetchOnMountOrArgChange: true }
+  );
+  const dispatch = useDispatch();
+  const { blogs } = useSelector((state) => state.blogs);
   console.log(data);
   //   const { userBlogs } = data && data;
   //   console.log(userBlogs);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchBlogs(data));
+    data?.blogs && setUser(data.blogs[0].author.name);
+  }, [dispatch, userId]);
 
   // const accordian = (
   //   <Accordion>
@@ -55,28 +69,28 @@ function UserBlogs() {
   //   console.log(data + " in the use effect");
   // }, [data]);
 
-  const altCard = (post) => (
-    <Card className="">
-      <Card.Title className="text-center">
-        <h1>{post.title}</h1>
-        <p style={{ fontSize: "1rem" }}>
-          Written by <b className="text-capitalize">{post?.author.name}</b>
-        </p>
-      </Card.Title>
-      <Card.Body>
-        {/* <h1 className="text-center">{post.title}</h1> */}
-        <div className="text-center">
-          <p>
-            {post.body.length > 10 ? `${post.body.slice(0, 10)}...` : post.body}
-          </p>
+  // const altCard = (post) => (
+  //   <Card className="">
+  //     <Card.Title className="text-center">
+  //       <h1>{post.title}</h1>
+  //       <p style={{ fontSize: "1rem" }}>
+  //         Written by <b className="text-capitalize">{post?.author.name}</b>
+  //       </p>
+  //     </Card.Title>
+  //     <Card.Body>
+  //       {/* <h1 className="text-center">{post.title}</h1> */}
+  //       <div className="text-center">
+  //         <p>
+  //           {post.body.length > 10 ? `${post.body.slice(0, 10)}...` : post.body}
+  //         </p>
 
-          <LinkContainer to={`blog/${post._id}`}>
-            <Button>Go to post</Button>
-          </LinkContainer>
-        </div>
-      </Card.Body>
-    </Card>
-  );
+  //         <LinkContainer to={`blog/${post._id}`}>
+  //           <Button>Go to post</Button>
+  //         </LinkContainer>
+  //       </div>
+  //     </Card.Body>
+  //   </Card>
+  // );
 
   if (isLoading) return <LoadingSpinner />;
   return (
@@ -108,35 +122,38 @@ function UserBlogs() {
     //   )}
     // </Row>
     <Row>
-      {data?.userBlogs.length > 0 ? (
+      {data && data?.blogs.length > 0 ? (
         <>
           <h1 className="text-center">
-            {data?.name[0].toUpperCase()}
-            {data?.name.substring(1, data?.name.length)}'s Blog
+            {user && user[0].toUpperCase()}
+            {user && user.substring(1, user.length)}
+            's Blog
           </h1>
-          {data?.userBlogs.map((blog) => (
-            <Col lg={4} sm={10} className="mt-2">
-              <Card className="">
-                <Card.Title className="text-center mb-0">
-                  <h1>{blog.title}</h1>
-                </Card.Title>
-                <Card.Body>
-                  {/* <h1 className="text-center">{post.title}</h1> */}
-                  <div className="text-center">
-                    <p>
-                      {blog.body.length > 10
-                        ? `${blog.body.slice(0, 10)}...`
-                        : blog.body}
-                    </p>
+          {data?.blogs?.map((blog) => {
+            return (
+              <Col lg={4} sm={10} className="mt-2" key={blog._id}>
+                <Card className="">
+                  <Card.Title className="text-center mb-0">
+                    <h1>{blog.title}</h1>
+                  </Card.Title>
+                  <Card.Body>
+                    {/* <h1 className="text-center">{post.title}</h1> */}
+                    <div className="text-center">
+                      <p>
+                        {blog.body.length > 10
+                          ? `${blog.body.slice(0, 10)}...`
+                          : blog.body}
+                      </p>
 
-                    <LinkContainer to={`../${blog._id}`}>
-                      <Button>Go to post</Button>
-                    </LinkContainer>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+                      <LinkContainer to={`../${blog._id}`}>
+                        <Button>Go to post</Button>
+                      </LinkContainer>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
+          })}
         </>
       ) : (
         <div>This user hasn't written anything blogs yet</div>
