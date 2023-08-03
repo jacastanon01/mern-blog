@@ -6,7 +6,7 @@
   "scripts": {
     "dev-client": "npm run dev --prefix frontend",
     "dev-server": "nodemon backend/server.js",
-    "build-server": "npm install",
+    "build-server": "npm install && npm build",
     "start-server": "node backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
