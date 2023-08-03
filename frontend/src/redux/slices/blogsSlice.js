@@ -37,7 +37,7 @@ const blogsSlice = createSlice({
       state.blogs = [...state.blogs, newBlog]
     },
     removeBlog(state, action){
-        return state.blogs.filter(blog => blog._id !== action.payload._id)
+        state.blogs = state.blogs.filter(blog => blog._id !== action.payload._id)
         // state.blogs = filtered
     }
   },

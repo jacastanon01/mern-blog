@@ -27,14 +27,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 function MyBlogs() {
   const { userInfo } = useSelector((state) => state.auth);
-  const { blogs, status, error } = useSelector((state) => state.blogs);
+  //const { blogs, status, error } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
-  const { data, isLoading } = useGetUserBlogsQuery(
+  const { data, isLoading, isFetching, is } = useGetUserBlogsQuery(
     { userId: userInfo._id }
-    // { refetchOnMountOrArgChange: true }
+    //{ refetchOnMountOrArgChange: true }
   );
-  console.log("USER DATA: ", data);
   //console.log(data);
   const navigate = useNavigate();
 
@@ -60,16 +59,19 @@ function MyBlogs() {
   //   </Accordion>
   // );
   //   console.log(blogs);
-  useEffect(() => {
-    data && dispatch(fetchBlogs(data));
-    console.log(JSON.stringify(data) + " in the use effect");
-  }, [dispatch]);
+  // useEffect(() => {
+  //   data && dispatch(fetchBlogs(data));
+  //   console.log(JSON.stringify(data) + " in the use effect");
+  // }, [dispatch, data]);
 
-  if (status === "pending") return <LoadingSpinner />;
-  if (isLoading) return <LoadingSpinner />;
-  if (status === "rejected") return <p>{error.message}</p>;
+  if (isLoading || isFetching) {
+    return <LoadingSpinner />;
+  }
+  // // if (isLoading) return <LoadingSpinner />;
+  // if (status === "rejected") return <p>{error.message}</p>;
 
   // if (isLoading) return <LoadingSpinner />;
+  // if (data) {
   return (
     //     <section>
     //       {data?.blogs ? (
@@ -82,7 +84,7 @@ function MyBlogs() {
     <>
       <h1 className="text-center">MY BLOGS</h1>
       <Row>
-        {data && data?.blogs?.length > 0 ? (
+        {data?.blogs.length > 0 ? (
           data?.blogs.map((post) => (
             <SingleBlog data={post} name={data?.name} key={post._id} />
             // <Col lg={4} sm={10} className="mt-2" key={post._id}>
@@ -127,6 +129,7 @@ function MyBlogs() {
       </Row>
     </>
   );
+  // }
 }
 
 export default MyBlogs;

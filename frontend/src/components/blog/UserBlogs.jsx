@@ -32,8 +32,8 @@ function UserBlogs() {
   console.log("USER ", userId);
   //const { data, isLoading } = useGetBlogsQuery();
   const { data, isLoading } = useGetUserBlogsQuery(
-    { userId },
-    { refetchOnMountOrArgChange: true }
+    { userId }
+    //{ refetchOnMountOrArgChange: true }
   );
   const dispatch = useDispatch();
   const { blogs } = useSelector((state) => state.blogs);
@@ -42,10 +42,10 @@ function UserBlogs() {
   //   console.log(userBlogs);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(fetchBlogs(data));
-    data?.blogs && setUser(data.blogs[0].author.name);
-  }, [dispatch, userId]);
+  // useEffect(() => {
+  //   dispatch(fetchBlogs(data));
+  //   data?.blogs && setUser(data?.name);
+  // }, [dispatch, userId]);
 
   // const accordian = (
   //   <Accordion>

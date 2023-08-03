@@ -19,7 +19,7 @@ function CreateBlog() {
     try {
       const res = await createNewBlog({ title, body }).unwrap();
       console.log(res);
-      dispatch(addBlog({ ...res }));
+      // dispatch(addBlog({ ...res }));
       navigate("/blog/myblogs");
     } catch (error) {
       toast.error(error?.data?.message || "Troubling creating blog");

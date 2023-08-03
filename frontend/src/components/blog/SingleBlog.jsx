@@ -25,12 +25,13 @@ function SingleBlog({ data, name }) {
   const [updateBlog] = useUpdateBlogMutation();
   //const { data } = useGetSingleBlogQuery({ id: JSON.stringify(blogId) });
   const { userInfo } = useSelector((state) => state.auth);
+  const { status } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const id = data?._id;
-    //dispatch(fetchBlogs({ id })); //update blogs state
-  }, [dispatch]);
+  // useEffect(() => {
+  //   const id = data?._id;
+  //   //dispatch(fetchBlogs({ id })); //update blogs state
+  // }, [dispatch]);
 
   //   const getBlog = async () => {
   //     try {
@@ -44,23 +45,24 @@ function SingleBlog({ data, name }) {
   //   };
 
   async function handleDelete(id) {
-    const res = await deleteBlog({ id }).unwrap(); // delete from db
-    dispatch(removeBlog({ ...res })); // delete from state
-    console.log("DELETE", res);
-    //dispatch(fetchBlogs(data))
-    navigate("/blog/myblogs");
+    await deleteBlog({ id }); // delete from db
+
+    //dispatch(removeBlog({ ...res })); // delete from state
+    // console.log("DELETE", res);
+    //dispatch(fetchBlogs(data)){
+    //navigate("/blog/myblogs");
   }
 
   // function handleEdit(id) {
   //   navigate("/blog/edit")
   // }
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading || status === "pending") return <LoadingSpinner />;
 
   const styles = userInfo ? { flex: 1 } : null;
   return (
     <>
-      {data && !isLoading && (
+      {data && (
         <Col lg={4} sm={10} className="mt-4">
           <Card variant="secondary">
             <Card.Title className="text-center mt-2">{data?.title}</Card.Title>

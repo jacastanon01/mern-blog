@@ -47,7 +47,7 @@ const getPostsByUser = asyncHandler(async (req, res) => {
     }
   console.log(blogs, "USER BLOGS", user.name)
   //console.log(userBlogs)
-  res.status(200).json({ blogs, name: user._id });
+  res.status(200).json({ blogs, name: blogs[0].author.name});
   } else {
     res.status(404)
     throw new Error("Blogs not found")
@@ -97,6 +97,7 @@ const updateBlogPost = asyncHandler(async (req, res) => {
 //@access   private
 const createNewPost = asyncHandler(async (req, res) => {
   const { title, body } = req.body;
+  
   const newBlog = await Blog.create({ title, body, author: req.user._id });
   //const blogs = await Blog.find()
   await newBlog.populate("author");

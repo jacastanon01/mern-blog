@@ -25,39 +25,13 @@ import { fetchBlogs } from "../../redux/slices/blogsSlice";
 function BlogFeed() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { blogs, status, error } = useSelector((state) => state.blogs);
+  //const { blogs, status, error } = useSelector((state) => state.blogs);
   const { userInfo } = useSelector((state) => state.auth);
-  const { data, isLoading } = useGetBlogsQuery();
-  // {},
-  // { refetchOnMountOrArgChange: true }
-  console.log("MYBLOGS", data);
-
+  const { data: blogs, isLoading } = useGetBlogsQuery();
+  console.log("BLOGS ", blogs?.blogs);
   // useEffect(() => {
-  //   dispatch(fetchBlogs());
-  // }, [dispatch]);
-
-  useEffect(() => {
-    data && blogs && dispatch(fetchBlogs(data));
-  }, [dispatch, data]);
-
-  // const accordian = (
-  //   <Accordion>
-  //     {data?.blogs ? (
-  //       data?.blogs?.map((d, i) => (
-  //         <Accordion.Item eventKey={i} key={d._id}>
-  //           <Accordion.Header>{d.title}</Accordion.Header>
-  //           <Accordion.Body>
-  //             {d.body}
-  //             <div className="d-flex text-grey">By {d.author.name}</div>
-  //           </Accordion.Body>
-  //         </Accordion.Item>
-  //       ))
-  //     ) : (
-  //       <p>None</p>
-  //     )}
-  //   </Accordion>
-  // );
-  //   console.log(blogs);
+  //   data && blogs && dispatch(fetchBlogs(data));
+  // }, [dispatch, data]);
 
   const altCard = (post) => (
     <Card className="">
@@ -92,10 +66,12 @@ function BlogFeed() {
     </Card>
   );
 
-  if (status === "pending") return <LoadingSpinner />;
-  if (status === "rejected" && !isLoading)
-    return <div className="text-red">Error {error}</div>;
-
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+  // if (status === "rejected" && !isLoading) {
+  //   return <div className="text-red">Error {error}</div>;
+  // }
   return (
     //     <section>
     //       {data?.blogs ? (
@@ -108,8 +84,8 @@ function BlogFeed() {
     <Row>
       <h1 className="text-center">Browse all blogs</h1>
 
-      {blogs?.length > 0 ? (
-        blogs?.map((post) => (
+      {blogs && blogs?.blogs.length > 0 ? (
+        blogs?.blogs.map((post) => (
           // <Col lg={4} sm={10} className="mt-2" key={post._id}>
           //   {/* <BlogCard data={post} /> */}
           //   {/* <SingleBlog data={post} /> */}

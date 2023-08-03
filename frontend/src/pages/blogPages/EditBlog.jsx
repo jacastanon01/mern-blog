@@ -15,7 +15,6 @@ import { LinkContainer } from "react-router-bootstrap";
 
 function EditBlog() {
   const { blogId } = useParams();
-  console.log(blogId);
   const [updateBlog, { isLoading: isUpdating }] = useUpdateBlogMutation();
   const [deleteBlog, { isLoading: isDeleting }] = useDeleteBlogMutation();
   const { data, isLoading, error } = useGetSingleBlogQuery(
@@ -62,8 +61,8 @@ function EditBlog() {
   }
 
   async function handleDelete() {
-    const res = await deleteBlog({ id: blogId }).unwrap();
-    //dispatch(removeBlog({ ...res }));
+    await deleteBlog({ id: blogId }).unwrap();
+    // dispatch(removeBlog({ ...res }));
     navigate("../myblogs");
   }
 
