@@ -4,7 +4,7 @@ import { isRejectedWithValue } from "@reduxjs/toolkit";
 const baseQuery = fetchBaseQuery({
   baseUrl:
     process.env.NODE_ENV === "production"
-      ? "https://mern-blog-btbu.onrender.com"
+      ? "https://mern-blog-btbu.onrender.com/api"
       : "/api",
 });
 
