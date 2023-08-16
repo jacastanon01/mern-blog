@@ -30,9 +30,9 @@ function MyBlogs() {
   //const { blogs, status, error } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
-  const { data, isLoading, isFetching, is } = useGetUserBlogsQuery(
+  const { data, isLoading, isFetching } = useGetUserBlogsQuery(
     { userId: userInfo._id }
-    //{ refetchOnMountOrArgChange: true }
+    // { refetchOnMountOrArgChange: true }
   );
   //console.log(data);
   const navigate = useNavigate();

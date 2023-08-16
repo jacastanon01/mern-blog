@@ -27,7 +27,7 @@ import { fetchBlogs } from "../../redux/slices/blogsSlice";
 // };
 
 function UserBlogs() {
-  const [user, setUser] = useState("");
+  // const [user, setUser] = useState("");
   const { userId } = useParams();
   console.log("USER ", userId);
   //const { data, isLoading } = useGetBlogsQuery();
@@ -35,17 +35,7 @@ function UserBlogs() {
     { userId }
     //{ refetchOnMountOrArgChange: true }
   );
-  const dispatch = useDispatch();
-  const { blogs } = useSelector((state) => state.blogs);
-  console.log(data);
-  //   const { userBlogs } = data && data;
-  //   console.log(userBlogs);
-  const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   dispatch(fetchBlogs(data));
-  //   data?.blogs && setUser(data?.name);
-  // }, [dispatch, userId]);
+  const user = data?.blogs && data?.blogs[0].author.name;
 
   // const accordian = (
   //   <Accordion>
