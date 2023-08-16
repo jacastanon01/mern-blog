@@ -45,7 +45,7 @@ function SingleBlog({ data, name }) {
   //   };
 
   async function handleDelete(id) {
-    await deleteBlog({ id }); // delete from db
+    await deleteBlog({ id }).unwrap(); // delete from db
 
     //dispatch(removeBlog({ ...res })); // delete from state
     // console.log("DELETE", res);
@@ -57,7 +57,7 @@ function SingleBlog({ data, name }) {
   //   navigate("/blog/edit")
   // }
 
-  if (isLoading || status === "pending") return <LoadingSpinner />;
+  if (isLoading) return <LoadingSpinner />;
 
   const styles = userInfo ? { flex: 1 } : null;
   return (

@@ -30,16 +30,12 @@ function MyBlogs() {
   //const { blogs, status, error } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
-  const { data, isLoading, isFetching } = useGetUserBlogsQuery(
+  const { data, isLoading, isFetching, isError } = useGetUserBlogsQuery(
     { userId: userInfo._id }
     // { refetchOnMountOrArgChange: true }
   );
   //console.log(data);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   dispatch(fetchBlogs(data));
-  // }, [dispatch]);
 
   // const accordian = (
   //   <Accordion>
@@ -84,7 +80,7 @@ function MyBlogs() {
     <>
       <h1 className="text-center">MY BLOGS</h1>
       <Row>
-        {data?.blogs.length > 0 ? (
+        {data && data?.blogs.length > 0 && !isError ? (
           data?.blogs.map((post) => (
             <SingleBlog data={post} name={data?.name} key={post._id} />
             // <Col lg={4} sm={10} className="mt-2" key={post._id}>
