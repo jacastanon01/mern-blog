@@ -14,7 +14,7 @@ const app = express();
 const corsOptions = {
   origin:
     process.env.NODE_ENV === "production"
-      ? ".onrender.com"
+      ? "https://mern-blog-client-bjq8.onrender.com"
       : "http://localhost:3000",
   credentials: true,
 };
