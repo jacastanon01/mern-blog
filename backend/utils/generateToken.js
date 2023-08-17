@@ -9,7 +9,9 @@ export const generateToken = (res, userId) => {
   res.cookie("jwt", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development", // use secure cookies in prod
-    sameSite: "Strict",
+    sameSite: "strict",
     maxAge: 30 * 24 * 60 * 60 * 1000,
+    // domain:
+    //   process.env.NODE_ENV === "production" ? ".onrender.com" : "localhost",
   });
 };

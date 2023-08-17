@@ -11,10 +11,17 @@ import cors from "cors";
 
 connectDB();
 const app = express();
+const corsOptions = {
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://mern-blog-client-bjq8.onrender.com"
+      : "http://localhost:3000",
+  credentials: true,
+};
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
 
 //app.use("/api/users", userRoutes);
 app.use("/api/users", userRoutes);
