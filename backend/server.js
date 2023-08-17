@@ -12,10 +12,10 @@ import cors from "cors";
 connectDB();
 const app = express();
 const corsOptions = {
-  // origin:
-  //   process.env.NODE_ENV === "production"
-  //     ? "onrender.com"
-  //     : "http://localhost:3000",
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://mern-blog-client-bjq8.onrender.com"
+      : "http://localhost:3000",
   credentials: true,
 };
 app.use(express.urlencoded({ extended: true }));
