@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseUrl =
-  process.env.NODE_ENV === "production" ? ".onrender.com/api" : "/api";
+  process.env.NODE_ENV === "production"
+    ? "https://mern-blog-btbu.onrender.com/api"
+    : "/api";
 
 const baseQuery = fetchBaseQuery({
   baseUrl,
