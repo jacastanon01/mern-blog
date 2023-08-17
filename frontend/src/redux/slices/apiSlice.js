@@ -1,11 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { isRejectedWithValue } from "@reduxjs/toolkit";
+
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://mern-blog-btbu.onrender.com/api"
+    : "/api";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl:
-    process.env.NODE_ENV === "production"
-      ? "https://mern-blog-btbu.onrender.com/api"
-      : "/api",
+  baseUrl,
+  credentials: "include",
 });
 
 export const apiSlice = createApi({
