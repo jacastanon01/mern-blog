@@ -23,30 +23,18 @@ import { useGetSingleBlogQuery } from "./redux/slices/blogsApiSlice.js";
 import MyBlogs from "./components/blog/MyBlogs.jsx";
 import EditBlog from "./pages/blogPages/EditBlog.jsx";
 import UserBlogs from "./components/blog/UserBlogs.jsx";
-
-async function blogLoader(blogId) {
-  console.log(blogId);
-  //return "Hello";
-  try {
-    const [getSingleBlog] = useGetSingleBlogQuery({ id: blogId });
-    const res = await getSingleBlog({ id: blogId }).unwrap();
-    console.log(JSON.stringify(res));
-    return data;
-  } catch (error) {
-    console.log(error);
-    return "ERROR";
-  }
-}
+import BlogFeed from "./components/blog/BlogFeed.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index element={<HomePage />} />
+      <Route index element={<Hero />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
       <Route path="" element={<PrivateRoute />}>
         <Route path="profile" element={<ProfilePage />} />
         <Route path="blog">
+          <Route index element={<BlogFeed />} />
           <Route path="123" element={<h1>Test</h1>} />
           <Route path="myblogs" element={<MyBlogs />} />
           <Route path="create" element={<CreateBlog />} />

@@ -12,7 +12,7 @@ export function Header() {
         <Container>
           {userInfo ? (
             <>
-              <LinkContainer to="/">
+              <LinkContainer to="/blog">
                 <Navbar.Brand>All Blogs</Navbar.Brand>
               </LinkContainer>
               <Navbar.Brand> | </Navbar.Brand>

@@ -41,7 +41,7 @@ function LoginPage() {
       }).unwrap();
       console.log(JSON.stringify(res));
       dispatch(setCredentials({ ...res }));
-      navigate("/");
+      navigate("/blog");
     } catch (error) {
       toast.error(error?.data?.message || "Invalid credentials");
     }

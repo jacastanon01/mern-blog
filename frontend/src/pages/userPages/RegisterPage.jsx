@@ -25,7 +25,7 @@ function RegisterPage() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/blog");
     }
   }, [navigate, userInfo]);
 

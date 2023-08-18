@@ -25,7 +25,7 @@ function Hero() {
 
   const heroButtons = userInfo ? (
     <>
-      <LinkContainer to="/">
+      <LinkContainer>
         <Button variant="primary me-3" onClick={handleLogout}>
           Log out
         </Button>
