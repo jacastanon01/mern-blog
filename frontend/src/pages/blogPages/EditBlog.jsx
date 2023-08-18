@@ -123,10 +123,16 @@ function EditBlog() {
         ) : (
           <Card>
             <Card.Title
-              className=""
+              className="text-center"
               style={{ borderBottom: "1px solid white" }}
             >
-              <h1 className="text-center text-uppercase">{title}</h1>
+              <h1 className="text-uppercase">{title}</h1>
+              <div className="d-flex flex-column justify-content-center align-items-center mt-3">
+                Written by: {data?.post.author.name}
+                <time style={{ fontSize: "0.7rem", flex: 1 }}>
+                  {formatISO9075(new Date(data?.post.createdAt))}
+                </time>
+              </div>
             </Card.Title>
 
             <Card.Body
@@ -142,12 +148,6 @@ function EditBlog() {
                 }}
               >
                 <div>{body}</div>
-                <div className="d-flex flex-column justify-content-center align-items-end mt-3">
-                  Written by: {data?.post.author.name}
-                  <time style={{ fontSize: "0.7rem", flex: 1 }}>
-                    {formatISO9075(new Date(data?.post.createdAt))}
-                  </time>
-                </div>
               </div>
               <LinkContainer to={`../user/${data?.post.author._id}`}>
                 <Button className="btn-primary align-self-end text-capitalize">

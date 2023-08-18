@@ -98,7 +98,7 @@ function BlogFeed() {
                 <Card.Title className="text-center mb-0">
                   <h1>{post.title}</h1>
                   <p style={{ fontSize: "1rem" }}>
-                    Written by:
+                    Written by:{" "}
                     {post?.author?._id === userInfo._id ? (
                       <LinkContainer
                         style={{ cursor: "pointer" }}
