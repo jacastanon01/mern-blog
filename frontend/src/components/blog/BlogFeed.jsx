@@ -102,14 +102,14 @@ function BlogFeed() {
                     {post?.author?._id === userInfo._id ? (
                       <LinkContainer
                         style={{ cursor: "pointer" }}
-                        to={"blog/myblogs"}
+                        to={"myblogs"}
                       >
                         <b className="text-capitalize">{post?.author?.name}</b>
                       </LinkContainer>
                     ) : (
                       <LinkContainer
                         style={{ cursor: "pointer" }}
-                        to={`blog/user/${post?.author?._id.toString()}`}
+                        to={`user/${post?.author?._id.toString()}`}
                       >
                         <b className="text-capitalize">{post?.author?.name}</b>
                       </LinkContainer>
@@ -125,7 +125,7 @@ function BlogFeed() {
                         : post.body}
                     </p>
 
-                    <LinkContainer to={`blog/${post._id}`}>
+                    <LinkContainer to={`${post._id}`}>
                       <Button>Go to post</Button>
                     </LinkContainer>
                   </div>
