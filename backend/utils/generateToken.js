@@ -12,8 +12,6 @@ export const generateToken = (res, userId) => {
     sameSite: "strict",
     maxAge: 30 * 24 * 60 * 60 * 1000,
     domain:
-      process.env.NODE_ENV === "production"
-        ? "mern-blog-client-bjq8.onrender.com"
-        : "localhost",
+      process.env.NODE_ENV === "production" ? "onrender.com" : "localhost",
   });
 };
