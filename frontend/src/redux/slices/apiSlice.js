@@ -6,7 +6,7 @@ const baseUrl =
     : "/api";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl,
+  baseUrl: "/api",
   credentials: "include",
 });
 
