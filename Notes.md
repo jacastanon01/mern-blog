@@ -84,3 +84,13 @@ This led me to learn more about the "cache tag" system RTK query uses:
 > Each individual mutation endpoint can invalidate particular tags for existing cached data. Doing so enables a relationship between cached data from one or more query endpoints and the behaviour of one or more mutation endpoints.
 
 In our apiSlice we already have a user tag so I added a Blog tag as well, but I wasn't doing anything with it. I wanted to let RTK Query know that every mutation that changes our data should invalidate the cache we already have and replace it with the new returned data. All I needed to do was add an invalidateTags property to our mutation endpoint and now it appears to be behaving as expected.
+
+### Setting cookies in production.
+
+Since auth was handled with http cookies, I ran into some issues settingthe cookie. The point of an hhtpOnly cookie is to set it in the backend and then the client will send that cookie as part of the request header which the backend can grab for authorization. The public suffix list is a list of domains that generally are not allowed to set cookies. You cannot set .onrender.com as a domain. Because .onrender.com is on the list, there needed to be a work around for authorization in production. Solution was to set a rewrite with render that would rewrite the call to the `/api` endpoint with a call to the web service backend's endpoint url. And also set a `USE_EXTERNAL_HOST` enviroment variable to the full client url name. Render will rewrite the endpoints during the build(?) or when the service is spun up. So every subsequent request comes from the same domain. Client will send a request to the backend, which shares the domain of the origin, and that response will be sent to the browser with the httoPonly cookie. Technically the backend and client share the same URL because of the tooling set up in render, which bypasses CORS issues, and allows you to set the cookie. Before the backend and client had a different domain, which was preventing the cookie from being set becuase the domain did not match the origin.
+Resources that helped me understand what was going on:
+
+- https://community.render.com/t/setting-cookies-onrender-com/7886
+- https://www.valentinog.com/blog/cookies/#cookies-are-scoped-by-domain-the-domain-attribute
+- https://www.section.io/engineering-education/what-are-cookies-nodejs/
+- https://plainenglish.io/blog/how-to-send-cookies-from-express-to-a-front-end-application-in-production-9273a4f3ce72
