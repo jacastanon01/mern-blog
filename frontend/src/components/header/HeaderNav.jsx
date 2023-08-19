@@ -1,6 +1,7 @@
 import { NavDropdown, Nav } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { CgAdd } from "react-icons/cg";
 import { clearCredentials } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../redux/slices/usersApiSlice";
@@ -22,32 +23,40 @@ function HeaderNav() {
     }
   };
 
-  return (
-    <Nav className="ms-auto">
-      {userInfo ? (
-        <>
-          <Nav.Item className="my-auto rounded-circle px-2 text-white btn-primary">
-            {userInfo.name[0].toUpperCase()}
-            {/* <span className="rounded-circle px-2 py-1 text-white btn-primary">
+  const avatar = (
+    <>
+      <span className="my-auto rounded-circle px-2 text-white btn-primary">
+        {userInfo.name[0].toUpperCase()}
+        {/* <span className="rounded-circle px-2 py-1 text-white btn-primary">
               {userInfo.name[0].toUpperCase()}
             </span> */}
-          </Nav.Item>
+      </span>
+      <span>{userInfo.name}</span>
+    </>
+  );
+
+  return (
+    <Nav className="ms-auto d-flex align-items-end">
+      {userInfo ? (
+        <>
           <NavDropdown
-            title={userInfo.name}
+            title={avatar}
             id="username"
-            className="text-capitalize"
+            className="text-capitalize w-100"
           >
             <LinkContainer to="/profile">
               <NavDropdown.Item>Profile</NavDropdown.Item>
             </LinkContainer>
-            <LinkContainer to="blog/myblogs">
-              <NavDropdown.Item>My Blogs</NavDropdown.Item>
-            </LinkContainer>
-            <LinkContainer to="blog/create">
-              <NavDropdown.Item>Add New Blog</NavDropdown.Item>
+            <LinkContainer to="/blog/myblogs">
+              <NavDropdown.Item>My blogs</NavDropdown.Item>
             </LinkContainer>
             <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
           </NavDropdown>
+          <LinkContainer to="blog/create">
+            <NavDropdown.Item className="h-100 align-self-center">
+              <CgAdd /> Add New Blog
+            </NavDropdown.Item>
+          </LinkContainer>
         </>
       ) : (
         <>

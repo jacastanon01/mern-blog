@@ -3,6 +3,7 @@ import NavDropdown from "./HeaderNav";
 import { LinkContainer } from "react-router-bootstrap";
 import { toggleTheme } from "../../utils/ThemeContext";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import { ImBlog } from "react-icons/im";
 
 export function Header() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -13,11 +14,9 @@ export function Header() {
           {userInfo ? (
             <>
               <LinkContainer to="/blog">
-                <Navbar.Brand>All Blogs</Navbar.Brand>
-              </LinkContainer>
-              <Navbar.Brand> | </Navbar.Brand>
-              <LinkContainer to="/blog/myblogs">
-                <Navbar.Brand>My blogs</Navbar.Brand>
+                <Navbar.Brand>
+                  <ImBlog /> Feed
+                </Navbar.Brand>
               </LinkContainer>
             </>
           ) : (
