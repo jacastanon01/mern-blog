@@ -1,7 +1,7 @@
 import { NavDropdown, Nav } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import { CgAdd } from "react-icons/cg";
+// import { CgAdd } from "react-icons/cg";
 import { clearCredentials } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../redux/slices/usersApiSlice";
@@ -26,12 +26,12 @@ function HeaderNav() {
   const avatar = (
     <>
       <span className="my-auto rounded-circle px-2 text-white btn-primary">
-        {userInfo.name[0].toUpperCase()}
+        userInfo.name[0].toUpperCase()
         {/* <span className="rounded-circle px-2 py-1 text-white btn-primary">
               {userInfo.name[0].toUpperCase()}
             </span> */}
       </span>
-      <span>{userInfo.name}</span>
+      <span>userInfo.name</span>
     </>
   );
 
@@ -40,7 +40,7 @@ function HeaderNav() {
       {userInfo ? (
         <>
           <NavDropdown
-            title={avatar}
+            title={"Hi"}
             id="username"
             className="text-capitalize w-100"
           >
@@ -54,7 +54,7 @@ function HeaderNav() {
           </NavDropdown>
           <LinkContainer to="blog/create">
             <NavDropdown.Item className="h-100 align-self-center">
-              <CgAdd /> Add New Blog
+              Add New Blog
             </NavDropdown.Item>
           </LinkContainer>
         </>
