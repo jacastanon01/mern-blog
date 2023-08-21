@@ -11,51 +11,16 @@ import { FaRegTrashAlt, FaEdit } from "react-icons/fa";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { LinkContainer } from "react-router-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { removeBlog, fetchBlogs } from "../../redux/slices/blogsSlice";
 
 function SingleBlog({ data, name }) {
-  //const [getSingleBlog] = useGetSingleBlogQuery();
-  //console.log(data);
-
-  //   const data = useLoaderData();
-  //   console.log(data);
-  //const { blogId } = useParams();
-  const navigate = useNavigate();
   const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
-  const [updateBlog] = useUpdateBlogMutation();
-  //const { data } = useGetSingleBlogQuery({ id: JSON.stringify(blogId) });
   const { userInfo } = useSelector((state) => state.auth);
   const { status } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const id = data?._id;
-  //   //dispatch(fetchBlogs({ id })); //update blogs state
-  // }, [dispatch]);
-
-  //   const getBlog = async () => {
-  //     try {
-  //       const res = await getSingleBlog({ id: blogId }).unwrap();
-  //       console.log(JSON.stringify(res));
-  //       return data;
-  //     } catch (error) {
-  //       console.log(error);
-  //       return "ERROR";
-  //     }
-  //   };
-
   async function handleDelete(id) {
     await deleteBlog({ id }).unwrap(); // delete from db
-
-    //dispatch(removeBlog({ ...res })); // delete from state
-    // console.log("DELETE", res);
-    //dispatch(fetchBlogs(data)){
-    //navigate("/blog/myblogs");
   }
-
-  // function handleEdit(id) {
-  //   navigate("/blog/edit")
-  // }
 
   if (isLoading) return <LoadingSpinner />;
 
@@ -105,30 +70,5 @@ function SingleBlog({ data, name }) {
     </>
   );
 }
-
-// const altCard =           <Card key={data?.post._id}>
-// <Card.Title className="text-center">{data?.post?.title}</Card.Title>
-// <Card.Body className="d-flex">
-//   <p style={styles}>{data?.post.body}</p>{" "}
-//   {localStorage.getItem("userInfo") && (
-//     <div className="justify-content-end">
-//       <button
-//         className="ms-auto"
-//         style={{ border: "none", color: "white", background: "none" }}
-//         onClick={() => handleDelete(data?.post._id)}
-//       >
-//         <FaEdit />
-//       </button>
-//       <button
-//         className="ms-auto"
-//         style={{ border: "none", color: "white", background: "none" }}
-//         onClick={() => handleDelete(data?.post._id)}
-//       >
-//         <FaRegTrashAlt />
-//       </button>
-//     </div>
-//   )}
-// </Card.Body>
-// </Card>
 
 export default SingleBlog;

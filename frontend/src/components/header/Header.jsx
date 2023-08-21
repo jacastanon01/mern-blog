@@ -26,14 +26,6 @@ export function Header() {
           )}
           <Navbar.Toggle aria-controls="basic-nabvar" />
           <Navbar.Collapse id="basic-navbar">
-            {/* <InputGroup.Text>
-                Toggle Theme
-                <InputGroup.Checkbox
-                  visibility={6}
-                  onChange={toggleTheme}
-                ></InputGroup.Checkbox>
-              </InputGroup.Text> */}
-
             <NavDropdown />
           </Navbar.Collapse>
         </Container>

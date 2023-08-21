@@ -6,21 +6,24 @@ import User from "../models/User.js";
 //@ route   GET api/blogs
 //@ access  private
 const getAllBlogs = asyncHandler(async (req, res) => {
-  const blogs = await Blog.find()
+  console.time("dbBlogs");
+  const blogs = await Blog.find();
+  console.timeEnd("dbBlogs");
   // console.log(getBlogs)
   // const blogs = await getBlogs.
   //console.log(blogs)
 
+  console.time("populate");
   if (blogs) {
-    for await (const blog of blogs){
-        if (!blog.author.name){ 
-          await blog.populate("author")
-          await blog.save()
-        }
+    for await (const blog of blogs) {
+      if (!blog.author.name) {
+        await blog.populate("author");
+        // await blog.save();
+      }
     }
-    
+
     //   console.log(blog + " BLOG BOY")
-    console.log(blogs, "GET ALL BLOGS")
+    console.timeEnd("populate");
     res.status(200).json({ blogs });
   } else {
     res.status(404);
@@ -33,24 +36,20 @@ const getAllBlogs = asyncHandler(async (req, res) => {
 //@ access  private
 const getPostsByUser = asyncHandler(async (req, res) => {
   // ? pass in a userId?
-  console.log("PARAMS!!! ", req.params)
   const blogs = await Blog.find({ author: req.params.userId });
-  console.log("Blogs!!!: ", blogs)
-  const user = await User.findOne({id: blogs.author})
-  console.log(user)
+  console.time("params");
   if (blogs) {
-    for await (const blog of blogs){
-        if (!blog.author.name){ 
-          await blog.populate("author")
-          await blog.save()
-        }
+    for await (const blog of blogs) {
+      if (!blog.author.name) {
+        await blog.populate("author");
+        // await blog.save();
+      }
     }
-  console.log(blogs, "USER BLOGS", user.name)
-  //console.log(userBlogs)
-  res.status(200).json({ blogs, name: blogs[0].author.name});
+    console.timeEnd("params");
+    res.status(200).json({ blogs, name: blogs[0].author.name });
   } else {
-    res.status(404)
-    throw new Error("Blogs not found")
+    res.status(404);
+    throw new Error("Blogs not found");
   }
 });
 
@@ -60,11 +59,11 @@ const getPostsByUser = asyncHandler(async (req, res) => {
 const getBlogById = asyncHandler(async (req, res) => {
   // const { slug } = req.params
 
-  const post = await Blog.findOne({ _id: req.params.blogId })
+  const post = await Blog.findOne({ _id: req.params.blogId });
 
   if (post) {
-    await post.populate("author")
-    await post.save()
+    await post.populate("author");
+    // await post.save();
     res.status(200).json({ post });
   } else {
     res.status(404);
@@ -97,11 +96,11 @@ const updateBlogPost = asyncHandler(async (req, res) => {
 //@access   private
 const createNewPost = asyncHandler(async (req, res) => {
   const { title, body } = req.body;
-  
+
   const newBlog = await Blog.create({ title, body, author: req.user._id });
   //const blogs = await Blog.find()
   await newBlog.populate("author");
-  await newBlog.save();
+  // await newBlog.save();
   // await User.findOneAndUpdate(
   //   { _id: req.user._id },
   //   // use $push to push new item to blogs array
@@ -124,7 +123,7 @@ const createNewPost = asyncHandler(async (req, res) => {
 const deleteBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.findOne({ _id: req.params.blogId });
   console.log(req.user._id);
-  
+
   if (req.user._id.toString() === blog.author.toString()) {
     // await User.findByIdAndUpdate({_id: req.user._id}, {$pull: {blogs: blog._id }}, {new: true})
     const blogs = await Blog.findOneAndDelete({ _id: blog._id });
