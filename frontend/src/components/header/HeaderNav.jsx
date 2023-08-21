@@ -25,7 +25,7 @@ function HeaderNav() {
 
   const avatar = (
     <>
-      <span className="my-auto rounded-circle px-2 text-white btn-primary">
+      <span className="my-auto rounded-circle px-2 bg-dark me-1">
         {userInfo?.name[0].toUpperCase()}
         {/* <span className="rounded-circle px-2 py-1 text-white btn-primary">
               {userInfo.name[0].toUpperCase()}
@@ -36,27 +36,25 @@ function HeaderNav() {
   );
 
   return (
-    <Nav className="ms-auto d-flex align-items-end">
+    <Nav className="ms-auto">
       {userInfo ? (
         <>
           <NavDropdown
             title={avatar}
             id="username"
-            className="text-capitalize w-100"
+            className="text-capitalize  d-flex align-items-end flex-column"
           >
             <LinkContainer to="/profile">
               <NavDropdown.Item>Profile</NavDropdown.Item>
             </LinkContainer>
             <LinkContainer to="/blog/myblogs">
-              <NavDropdown.Item>My blogs</NavDropdown.Item>
+              <NavDropdown.Item>My Blogs</NavDropdown.Item>
+            </LinkContainer>
+            <LinkContainer to="/blog/create">
+              <NavDropdown.Item>Add New Blog</NavDropdown.Item>
             </LinkContainer>
             <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
           </NavDropdown>
-          <LinkContainer to="/blog/create">
-            <NavDropdown.Item className="h-100 align-self-center">
-              Add New Blog
-            </NavDropdown.Item>
-          </LinkContainer>
         </>
       ) : (
         <>

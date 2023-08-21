@@ -1,7 +1,16 @@
 :root {
   --primary: #445ded;
   --dark: #445;
+
   /* --light: #ddd; */
+}
+body {
+  background: #222e76;
+  color: #eee;
+}
+
+header {
+  background: var(--primary);
 }
 
 /* [data-bs-theme="dark"] {
@@ -9,6 +18,7 @@
 } */
 .btn:hover {
   transform: scale(1.1);
+  /* background: var(--dark); */
 }
 /* 
 .container {
@@ -25,7 +35,7 @@
 }
 
 .btn-secondary {
-  background: var(--dark);
+  background: var(--primary);
 }
 
 .input-group-text {
@@ -37,4 +47,14 @@
 .card {
   color: #eee;
   background: var(--dark);
+}
+
+.card-body-display {
+  background: #eee;
+  color: black;
+  height: 150px;
+}
+
+.single-blog {
+  height: 100%;
 }

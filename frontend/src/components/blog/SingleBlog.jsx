@@ -63,7 +63,7 @@ function SingleBlog({ data, name }) {
   return (
     <>
       {data && (
-        <Col lg={4} sm={10} className="m-4">
+        <Col lg={4} sm={12}>
           <Card variant="secondary">
             <Card.Title className="text-center mt-2">{data?.title}</Card.Title>
             <Card.Body className="d-flex">

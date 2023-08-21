@@ -9,13 +9,13 @@ export function Header() {
   const { userInfo } = useSelector((state) => state.auth);
   return (
     <header>
-      <Navbar expand="lg" collapseOnSelect>
-        <Container>
+      <Navbar className="navbar-dark" expand="lg" collapseOnSelect>
+        <Container fluid="lg">
           {userInfo ? (
             <>
               <LinkContainer to="/blog">
                 <Navbar.Brand>
-                  <ImBlog /> Feed
+                  <ImBlog /> <span className="ms-1">Community</span>
                 </Navbar.Brand>
               </LinkContainer>
             </>
