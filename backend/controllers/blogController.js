@@ -9,7 +9,7 @@ const getAllBlogs = asyncHandler(async (req, res) => {
   console.time("dbBlogs");
   const blogs = await Blog.find();
   console.timeEnd("dbBlogs");
-  // console.log(getBlogs)
+  console.log("BLOGS: ", blogs);
   // const blogs = await getBlogs.
   //console.log(blogs)
 
@@ -20,6 +20,10 @@ const getAllBlogs = asyncHandler(async (req, res) => {
         await blog.populate("author");
         // await blog.save();
       }
+      // console.time("user");
+      // const user = await User.findById(blog.author.toString());
+
+      // console.timeEnd("user");
     }
 
     //   console.log(blog + " BLOG BOY")
@@ -58,12 +62,18 @@ const getPostsByUser = asyncHandler(async (req, res) => {
 //@ access  private
 const getBlogById = asyncHandler(async (req, res) => {
   // const { slug } = req.params
-
+  console.time("user");
+  // const user = await User.findById(req.user.id);
+  // console.log("USER", user);
   const post = await Blog.findOne({ _id: req.params.blogId });
-
+  console.timeEnd("user");
+  console.time("for loop");
   if (post) {
-    await post.populate("author");
-    // await post.save();
+    if (!post.author.name) {
+      await post.populate("author");
+      // await post.save();
+      console.timeEnd("for loop");
+    }
     res.status(200).json({ post });
   } else {
     res.status(404);

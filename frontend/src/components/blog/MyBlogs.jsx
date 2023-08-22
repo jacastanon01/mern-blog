@@ -4,7 +4,7 @@ import { useGetUserBlogsQuery } from "../../redux/slices/blogsApiSlice";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import SingleBlog from "./SingleBlog";
+import SingleBlogCard from "./SingleBlogCard";
 import { useSelector, useDispatch } from "react-redux";
 
 function MyBlogs() {
@@ -13,6 +13,8 @@ function MyBlogs() {
   const { data, isLoading, isFetching, isError } = useGetUserBlogsQuery({
     userId: userInfo._id,
   });
+
+  console.log("MY BLOGS", data, userInfo);
 
   if (isLoading || isFetching) {
     return <LoadingSpinner />;
@@ -24,7 +26,7 @@ function MyBlogs() {
 
       {data && data?.blogs.length > 0 && !isError ? (
         data?.blogs.map((post) => (
-          <SingleBlog data={post} name={data?.name} key={post._id} />
+          <SingleBlogCard data={post} name={data?.name} key={post._id} />
         ))
       ) : (
         <div>

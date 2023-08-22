@@ -12,16 +12,13 @@ import "./index.css";
 import Hero from "./components/Hero.jsx";
 import LoginPage from "./pages/userPages/LoginPage.jsx";
 import CreateBlog from "./pages/blogPages/CreateBlog.jsx";
-import HomePage from "./pages/HomePage";
 import RegisterPage from "./pages/userPages/RegisterPage.jsx";
 import store from "./redux/store.js";
 import { Provider } from "react-redux";
 import ProfilePage from "./pages/userPages/ProfilePage.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
-import SingleBlog from "./components/blog/SingleBlog.jsx";
-import { useGetSingleBlogQuery } from "./redux/slices/blogsApiSlice.js";
 import MyBlogs from "./components/blog/MyBlogs.jsx";
-import EditBlog from "./pages/blogPages/EditBlog.jsx";
+import SingleBlog from "./pages/blogPages/SingleBlog.jsx";
 import UserBlogs from "./components/blog/UserBlogs.jsx";
 import BlogFeed from "./components/blog/BlogFeed.jsx";
 
@@ -35,15 +32,10 @@ const router = createBrowserRouter(
         <Route path="profile" element={<ProfilePage />} />
         <Route path="blog">
           <Route index element={<BlogFeed />} />
-          <Route path="123" element={<h1>Test</h1>} />
           <Route path="myblogs" element={<MyBlogs />} />
           <Route path="create" element={<CreateBlog />} />
-          <Route path="edit" element={<EditBlog />} />
-          <Route
-            path=":blogId"
-            element={<EditBlog />}
-            //loader={async ({ params }) => await blogLoader(params.blogId)}
-          />
+          <Route path="edit" element={<SingleBlog />} />
+          <Route path=":blogId" element={<SingleBlog />} />
           <Route path="user/:userId" element={<UserBlogs />} />
         </Route>
       </Route>
