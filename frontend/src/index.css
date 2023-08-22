@@ -49,6 +49,10 @@ header {
   background: var(--dark);
 }
 
+.card-title {
+  background: var(--primary);
+}
+
 .card-body-display {
   background: #eee;
   color: black;

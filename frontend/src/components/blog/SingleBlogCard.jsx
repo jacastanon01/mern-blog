@@ -21,8 +21,17 @@ function SingleBlogCard({ data, name }) {
     <>
       {data && (
         <Col lg={4} sm={12}>
-          <Card variant="secondary">
-            <Card.Title className="text-center mt-2">{data?.title}</Card.Title>
+          <Card>
+            <Card.Title
+              className="text-center"
+              // style={{
+              //   borderBottom: "1px solid white",
+              //   paddingBottom: "0.5em",
+              //   background: "var(--primary)",
+              // }}
+            >
+              <h1>{data?.title}</h1>
+            </Card.Title>
             <Card.Body className="d-flex">
               <p style={styles}>
                 {data?.body.length > 80
@@ -64,3 +73,19 @@ function SingleBlogCard({ data, name }) {
 }
 
 export default SingleBlogCard;
+
+const card = (styles) => (
+  <Card variant="secondary">
+    <Card.Title
+      className="text-center"
+      style={{
+        ...styles,
+        borderBottom: "1px solid white",
+        paddingBottom: "0.5em",
+        background: "var(--primary)",
+      }}
+    >
+      <Card.Body></Card.Body>
+    </Card.Title>
+  </Card>
+);

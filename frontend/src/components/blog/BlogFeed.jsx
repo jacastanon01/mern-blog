@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Row, Card, Col } from "react-bootstrap";
 import { useGetBlogsQuery } from "../../redux/slices/blogsApiSlice";
-
+import BlogCard from "./BlogCard";
 import { LoadingSpinner } from "../LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
@@ -49,7 +49,7 @@ function BlogFeed() {
                   <div className="text-center">
                     <p>
                       {post.body.length > 10
-                        ? `${post.body.slice(0, 10)}...`
+                        ? `${post.body.slice(0, 40)}...`
                         : post.body}
                     </p>
 

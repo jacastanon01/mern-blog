@@ -38,7 +38,7 @@ function EditForm() {
     navigate("../myblogs");
   }
   return (
-    <FormContainer>
+    <>
       <h1 className="">Edit blog post</h1>
 
       <div className="inline-block">
@@ -79,7 +79,7 @@ function EditForm() {
           </Col>
         </Row>
       </Form>
-    </FormContainer>
+    </>
   );
 }
 
