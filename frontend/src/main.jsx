@@ -19,8 +19,8 @@ import ProfilePage from "./pages/userPages/ProfilePage.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import MyBlogs from "./components/blog/MyBlogs.jsx";
 import SingleBlog from "./pages/blogPages/SingleBlog.jsx";
-import UserBlogs from "./components/blog/UserBlogs.jsx";
-import BlogFeed from "./components/blog/BlogFeed.jsx";
+import UserBlogs from "./pages/blogPages/UserBlogs.jsx";
+import BlogFeed from "./pages/blogPages/BlogFeed.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, Row, Card, Col } from "react-bootstrap";
 import { useGetUserBlogsQuery } from "../../redux/slices/blogsApiSlice";
-import { LoadingSpinner } from "../LoadingSpinner";
+import { LoadingSpinner } from "../../components/LoadingSpinner";
 import { useParams } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import BlogCard from "../../components/blog/BlogCard";
 
 function UserBlogs() {
   const { userId } = useParams();
@@ -21,28 +22,27 @@ function UserBlogs() {
             {user && user.substring(1, user.length)}
             's Blog
           </h1>
-          {data?.blogs?.map((blog) => {
-            return (
-              <Col lg={4} sm={10} className="mt-2" key={blog._id}>
-                <Card className="">
-                  <Card.Title className="text-center mb-0">
-                    <h1>{blog.title}</h1>
-                  </Card.Title>
-                  <Card.Body>
-                    {/* <h1 className="text-center">{post.title}</h1> */}
-                    <div className="text-center">
-                      <p>
-                        {blog.body.length > 10
-                          ? `${blog.body.slice(0, 10)}...`
-                          : blog.body}
-                      </p>
+          {data?.blogs?.map((post) => {
+            const bodyContent = (
+              <div className="text-center">
+                <p>
+                  {post.body.length > 10
+                    ? `${post.body.slice(0, 10)}...`
+                    : post.body}
+                </p>
 
-                      <LinkContainer to={`../${blog._id}`}>
-                        <Button>Go to post</Button>
-                      </LinkContainer>
-                    </div>
-                  </Card.Body>
-                </Card>
+                <LinkContainer to={`../${post._id}`}>
+                  <Button>Go to post</Button>
+                </LinkContainer>
+              </div>
+            );
+            return (
+              <Col lg={4} md={6} sm={12} className="mt-2" key={post._id}>
+                <BlogCard
+                  post={post}
+                  body={bodyContent}
+                  title={<h1>{post.title}</h1>}
+                />
               </Col>
             );
           })}

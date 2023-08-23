@@ -6,28 +6,22 @@ import { formatISO9075 } from "date-fns";
 
 function BlogCard({
   post,
-  author,
   styles,
   title,
   body,
   // ...cardStyles
 }) {
   //const styles = localStorage.getItem("userInfo") ? { flex: 1 } : null;
-  const { cardStyles, titleStyles, bodyStyles } = styles;
-  console.log("POST", post);
+  // const { cardStyles, titleStyles, bodyStyles } = styles;
+  console.log("BODY", body);
   return (
     post && (
-      <Card style={cardStyles}>
-        <Card.Title className="text-center" style={titleStyles}>
+      <Card style={styles?.cardStyles}>
+        <Card.Title className="text-center" style={styles?.titleStyles}>
           {title}
         </Card.Title>
 
-        <Card.Body
-          style={bodyStyles}
-          // className="d-flex flex-column justify-content-center"
-        >
-          {body}
-        </Card.Body>
+        <Card.Body style={styles?.bodyStyles}>{body}</Card.Body>
       </Card>
     )
   );
@@ -47,7 +41,7 @@ function BlogCardTitle({ children, ...styles }) {
 }
 
 function BlogCardBody({ children, ...styles }) {
-  <Card.Body style={{ ...styles }}>{children}</Card.Body>;
+  <Card.Body style={{ styles }}>{children}</Card.Body>;
 }
 
 export default BlogCard;

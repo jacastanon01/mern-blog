@@ -22,13 +22,13 @@ function SingleBlog() {
     boxShadow: "rgba(255, 255, 255, 0.1) 4px 4px 12px 12px",
   };
   const titleStyles = {
-    borderBottom: "1px solid white",
-    paddingBottom: "0.5em",
-    background: "var(--primary)",
+    // borderBottom: "1px solid white",
+    // paddingBottom: "0.5em",
+    // background: "var(--primary)",
   };
   const bodyStyles = {
     height: "30vh",
-    fontSize: "calc(1.35em + 1vw)",
+    fontSize: "calc(1em + 1vw)",
   };
 
   const titleContent = data && (
@@ -59,7 +59,7 @@ function SingleBlog() {
         {userInfo.email !== data.post.author.email ? (
           <BlogCard
             post={data.post}
-            styles={{ cardStyles, titleStyles, bodyStyles }}
+            styles={{ cardStyles, bodyStyles }}
             title={titleContent}
             body={data.post.body}
           />

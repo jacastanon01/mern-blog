@@ -50,7 +50,11 @@ header {
 }
 
 .card-title {
+  border-bottom: 1px solid white;
+  padding-bottom: 0.5em;
   background: var(--primary);
+  margin-bottom: 0;
+  text-transform: capitalize;
 }
 
 .card-body-display {
