@@ -8,26 +8,18 @@ import { LinkContainer } from "react-router-bootstrap";
 import BlogCard from "../../components/blog/BlogCard";
 import EditForm from "../../components/blog/EditForm";
 
-// TODO: Instead of a ternary, absract the editing content from the single post content into a separate component
-
 function SingleBlog() {
   const { blogId } = useParams();
   const { data, isLoading, error } = useGetSingleBlogQuery({ blogId });
   const { userInfo } = useSelector((state) => state.auth);
 
   const cardStyles = {
-    // border: "0.2em double #eee",
     outline: "none",
     height: "100%",
     boxShadow: "rgba(255, 255, 255, 0.1) 4px 4px 12px 12px",
   };
-  const titleStyles = {
-    // borderBottom: "1px solid white",
-    // paddingBottom: "0.5em",
-    // background: "var(--primary)",
-  };
+
   const bodyStyles = {
-    height: "30vh",
     fontSize: "calc(1em + 1vw)",
   };
 
