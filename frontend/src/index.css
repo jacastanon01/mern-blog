@@ -2,20 +2,26 @@
   --primary: #445ded;
   --dark: #445;
   height: 100vh;
+  --data-bs-theme: "dark";
   /* --light: #ddd; */
 }
 body {
-  background: #222e76;
-  color: #eee;
 }
 
 header {
   background: var(--primary);
 }
 
-/* [data-bs-theme="dark"] {
+[data-bs-theme="dark"] {
+  background: #222e76;
+  color: #eee;
+  --dark: #445;
   --bs-emphasis-color-rgb: 0;
-} */
+}
+
+[data-bs-theme="light"] {
+  --dark: #eee;
+}
 .btn:hover {
   transform: scale(1.1);
   /* background: var(--dark); */
@@ -31,7 +37,8 @@ header {
 }
 
 .btn-primary {
-  background: var(--primary);
+  background: var(--data-bs-theme);
+  color: (var(--data-bs-theme));
 }
 
 .btn-secondary {
@@ -45,7 +52,7 @@ header {
 }
 
 .card {
-  color: #eee;
+  color: var(--data-bs-theme);
   background: var(--dark);
 }
 
@@ -65,4 +72,8 @@ header {
 
 .single-blog {
   width: 30em;
+}
+
+.input-group-text {
+  background: inherit;
 }

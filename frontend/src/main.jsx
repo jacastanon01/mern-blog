@@ -43,6 +43,8 @@ const router = createBrowserRouter(
   )
 );
 
+document.querySelector("body").setAttribute("data-bs-theme", "dark");
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <React.StrictMode>

@@ -1,4 +1,4 @@
-import { NavDropdown, Nav } from "react-bootstrap";
+import { NavDropdown, Nav, InputGroup } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 // import { CgAdd } from "react-icons/cg";
@@ -6,9 +6,12 @@ import { clearCredentials } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../redux/slices/usersApiSlice";
 import { LinkContainer } from "react-router-bootstrap";
+import { toggleTheme } from "../../utils/ThemeContext";
+import { setTheme } from "../../redux/slices/themeSlice";
 
 function HeaderNav() {
   const { userInfo } = useSelector((state) => state.auth);
+  const { isDark } = useSelector((state) => state.theme);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
@@ -39,6 +42,17 @@ function HeaderNav() {
     <Nav className="ms-auto">
       {userInfo ? (
         <>
+          <Nav.Item>
+            <InputGroup>
+              <InputGroup.Checkbox
+                onChange={(e) => {
+                  // toggleTheme(e);
+                  dispatch(setTheme(e));
+                }}
+                checked={isDark}
+              />
+            </InputGroup>
+          </Nav.Item>
           <NavDropdown
             title={avatar}
             id="username"
