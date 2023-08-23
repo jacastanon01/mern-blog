@@ -1,4 +1,4 @@
-import { NavDropdown, Nav, InputGroup } from "react-bootstrap";
+import { NavDropdown, Nav, InputGroup, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 // import { CgAdd } from "react-icons/cg";
@@ -6,8 +6,8 @@ import { clearCredentials } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../redux/slices/usersApiSlice";
 import { LinkContainer } from "react-router-bootstrap";
-import { toggleTheme } from "../../utils/ThemeContext";
 import { setTheme } from "../../redux/slices/themeSlice";
+import { CiDark, CiLight } from "react-icons/ci";
 
 function HeaderNav() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -28,30 +28,28 @@ function HeaderNav() {
 
   const avatar = (
     <>
-      <span className="my-auto rounded-circle px-2 bg-dark me-1">
+      <span className="my-auto text-white rounded-circle px-2 bg-dark me-1">
         {userInfo?.name[0].toUpperCase()}
-        {/* <span className="rounded-circle px-2 py-1 text-white btn-primary">
-              {userInfo.name[0].toUpperCase()}
-            </span> */}
       </span>
       <span>{userInfo?.name}</span>
     </>
   );
+
+  const handleTheme = () => {
+    dispatch(setTheme());
+  };
 
   return (
     <Nav className="ms-auto">
       {userInfo ? (
         <>
           <Nav.Item>
-            <InputGroup>
-              <InputGroup.Checkbox
-                onChange={(e) => {
-                  // toggleTheme(e);
-                  dispatch(setTheme(e));
-                }}
-                checked={isDark}
-              />
-            </InputGroup>
+            <Button
+              style={{ border: "none", color: "white", marginLeft: "auto" }}
+              onClick={handleTheme}
+            >
+              {isDark ? <CiDark /> : <CiLight />}
+            </Button>
           </Nav.Item>
           <NavDropdown
             title={avatar}

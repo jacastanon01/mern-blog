@@ -1,9 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  setDarkMode,
-  setLightMode,
-  toggleTheme,
-} from "../../utils/ThemeContext";
 
 const themeSlice = createSlice({
   name: "theme",
@@ -13,7 +8,11 @@ const themeSlice = createSlice({
   reducers: {
     setTheme(state, action) {
       state.isDark = !state.isDark;
-      toggleTheme(action.payload);
+      if (state.isDark) {
+        document.querySelector("body").setAttribute("data-bs-theme", "dark");
+      } else {
+        document.querySelector("body").setAttribute("data-bs-theme", "light");
+      }
     },
   },
 });
