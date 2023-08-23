@@ -8,6 +8,7 @@ import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import { connectDB } from "./api/connectDB.js";
 dotenv.config();
 import cors from "cors";
+import compression from "compression";
 
 connectDB();
 const app = express();
@@ -22,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
+
+app.use(compression());
+
 app.set("trust proxy", 1);
 
 //app.use("/api/users", userRoutes);
